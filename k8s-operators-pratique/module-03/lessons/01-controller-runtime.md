@@ -1,12 +1,3 @@
----
-layout: default
-title: "03.1 Controller Runtime"
-nav_order: 1
-parent: "Module 3: Building Custom Controllers"
-grand_parent: Modules
-mermaid: true
----
-
 # Lesson 3.1: Controller Runtime Deep Dive
 
 **Navigation:** [Module Overview](../README.md) | [Next Lesson: Designing Your API →](02-designing-api.md)
