@@ -213,9 +213,7 @@ Dans les prochains chapitres, nous découvrirons que cette logique est exactemen
 
 
 
-## Control Plane Components
-
-# Leçon 1.1 — Révision du Control Plane Kubernetes
+ Révision du Control Plane Kubernetes
 
 **Navigation :** [← Présentation du module](../README.md) | [Leçon suivante : API Machinery →](02-api-machinery.md)
 
