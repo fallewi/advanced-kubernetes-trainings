@@ -2276,14 +2276,22 @@ La majorité des plateformes cloud natives modernes s'appuient sur elles.
 
 Quelques exemples bien connus :
 
-| Projet | Ressources créées |
-||-|
-| Cert-Manager | `Certificate`, `Issuer`, `ClusterIssuer` |
-| Prometheus Operator | `Prometheus`, `Alertmanager`, `ServiceMonitor` |
-| Argo CD | `Application`, `ApplicationSet` |
-| Crossplane | `CompositeResource`, `ProviderConfig`, `Claim` |
-| Strimzi | `Kafka`, `KafkaTopic`, `KafkaUser` |
-| Elastic Cloud on Kubernetes | `Elasticsearch`, `Kibana`, `Beat` |
+=## Exemples de projets utilisant des CRD
+
+De nombreux projets de l'écosystème Kubernetes étendent l'API grâce aux **Custom Resource Definitions (CRD)**. Lors de leur installation, ils ajoutent de nouvelles ressources Kubernetes représentant leurs propres concepts métier.
+
+| Projet | Ressources créées | Description |
+|---------|-------------------|-------------|
+| **Cert-Manager** | `Certificate`, `Issuer`, `ClusterIssuer` | Automatise la gestion et le renouvellement des certificats TLS dans Kubernetes. |
+| **Prometheus Operator** | `Prometheus`, `Alertmanager`, `ServiceMonitor`, `PodMonitor`, `PrometheusRule` | Simplifie le déploiement, la configuration et la supervision de Prometheus et d'Alertmanager. |
+| **Argo CD** | `Application`, `ApplicationSet` | Permet de gérer les déploiements GitOps de manière déclarative. |
+| **Crossplane** | `CompositeResource`, `CompositeResourceDefinition`, `ProviderConfig`, `Claim` | Permet de gérer des ressources cloud (AWS, Azure, GCP, etc.) directement depuis Kubernetes. |
+| **Strimzi** | `Kafka`, `KafkaTopic`, `KafkaUser`, `KafkaConnect` | Automatise le déploiement et l'administration des clusters Apache Kafka. |
+| **Elastic Cloud on Kubernetes (ECK)** | `Elasticsearch`, `Kibana`, `Beat`, `Agent`, `EnterpriseSearch` | Déploie et administre la suite Elastic directement dans Kubernetes. |
+
+> **À retenir**
+>
+> Tous ces projets utilisent exactement le même mécanisme : ils installent une ou plusieurs **Custom Resource Definitions (CRD)** qui enrichissent l'API Kubernetes avec de nouveaux objets métier. Leurs **Operators** surveillent ensuite ces ressources et créent automatiquement les Pods, Services, StatefulSets, PersistentVolumeClaims et autres ressources Kubernetes nécessaires afin de concrétiser l'état souhaité décrit par l'utilisateur.
 
 Lorsque vous installez l'un de ces projets, vous enrichissez automatiquement l'API Kubernetes avec de nouvelles ressources spécialisées.
 
