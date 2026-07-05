@@ -1651,7 +1651,7 @@ Dans ce laboratoire, nous allons créer notre première CRD, puis instancier plu
 
 L'objectif n'est pas encore de développer un Operator. Nous nous concentrons uniquement sur l'ajout d'un nouveau type de ressource dans Kubernetes.
 
----
+
 
 # Étape 1 : Créer une CRD simple
 
@@ -1723,7 +1723,7 @@ kubectl get crd websites.example.com
 kubectl api-resources | grep websites
 ```
 
----
+
 
 ## Comprendre ce que fait cette commande
 
@@ -1750,7 +1750,7 @@ websites      ws      example.com/v1      true      Website
 
 Cela confirme que Kubernetes connaît désormais cette nouvelle ressource.
 
----
+
 
 # Analyse de la CRD
 
@@ -1775,7 +1775,7 @@ example.com
 
 sera automatiquement rejetée.
 
----
+
 
 ## Validation du nombre de réplicas
 
@@ -1792,7 +1792,7 @@ Cette contrainte empêche l'utilisateur de demander :
 
 Le serveur API vérifiera automatiquement cette règle.
 
----
+
 
 ## Valeurs autorisées pour le statut
 
@@ -1807,7 +1807,7 @@ Le champ `phase` ne pourra contenir que ces trois valeurs.
 
 Toute autre valeur sera refusée.
 
----
+
 
 # Étape 2 : Créer une Custom Resource
 
@@ -1834,7 +1834,7 @@ kubectl get ws my-website  # Using short name
 kubectl get website my-website -o yaml
 ```
 
----
+
 
 ## Ce qui se passe en arrière-plan
 
@@ -1859,7 +1859,7 @@ La ressource n'est qu'une déclaration.
 
 Ce sera le rôle de l'Operator de transformer cette déclaration en ressources Kubernetes.
 
----
+
 
 # Étape 3 : Tester la validation
 
@@ -1867,7 +1867,7 @@ L'un des principaux avantages des CRD est la validation automatique.
 
 Nous allons volontairement créer plusieurs ressources invalides.
 
----
+
 
 ## Cas n°1 : Champ obligatoire manquant
 
@@ -1894,7 +1894,7 @@ spec.replicas: Required value
 
 La ressource ne sera jamais enregistrée.
 
----
+
 
 ## Cas n°2 : URL invalide
 
@@ -1917,7 +1917,7 @@ Le champ `url` ne respecte pas l'expression régulière définie dans la CRD.
 
 Le serveur API refuse donc immédiatement la création.
 
----
+
 
 ## Cas n°3 : Nombre de réplicas invalide
 
@@ -1940,7 +1940,7 @@ La valeur dépasse la limite maximale définie dans le schéma OpenAPI.
 
 Encore une fois, la ressource est rejetée avant même d'être enregistrée dans **etcd**.
 
----
+
 
 # Pourquoi ces validations sont-elles importantes ?
 
@@ -1959,7 +1959,7 @@ Grâce aux CRD, ces vérifications sont effectuées directement par Kubernetes.
 
 L'Operator peut donc se concentrer uniquement sur sa logique métier.
 
----
+
 
 # Étape 4 : Observer le champ `status`
 
@@ -1989,7 +1989,7 @@ Plus tard, lorsque nous développerons notre premier Operator avec **Kubebuilder
 - le nombre de réplicas disponibles ;
 - toutes les informations d'observation.
 
----
+
 
 # Étape 5 : Explorer la CRD
 
@@ -2018,7 +2018,7 @@ Elle interroge directement le serveur API sans passer par les abstractions de `k
 
 Vous pouvez ainsi constater que Kubernetes a réellement ajouté une nouvelle API.
 
----
+
 
 # Étape 6 : Nettoyer le laboratoire
 
@@ -2038,7 +2038,7 @@ kubectl delete crd websites.example.com
 >
 > En environnement de production, cette opération doit donc être réalisée avec beaucoup de précaution.
 
----
+
 
 # Ce qu'il faut retenir de ce laboratoire
 
@@ -2078,7 +2078,7 @@ Au cours de cette leçon, nous avons étudié plusieurs concepts essentiels :
 
 Vous avez également réalisé votre premier laboratoire pratique, durant lequel vous avez créé votre propre ressource Kubernetes.
 
----
+
 
 # Ce que vous devez absolument retenir
 
@@ -2114,7 +2114,7 @@ Les quatre dernières ressources n'existent pas dans Kubernetes par défaut.
 
 Elles deviennent disponibles uniquement après l'installation d'une CRD.
 
----
+
 
 ## Une Custom Resource est une instance de cette définition
 
@@ -2135,7 +2135,7 @@ La CRD définit le modèle.
 
 Chaque ressource créée constitue une instance de ce modèle.
 
----
+
 
 ## Les CRD utilisent les mêmes mécanismes que les ressources natives
 
@@ -2154,7 +2154,7 @@ Elle peut notamment :
 
 Cette homogénéité est l'une des principales forces de Kubernetes.
 
----
+
 
 ## Le schéma OpenAPI protège votre API
 
@@ -2171,7 +2171,7 @@ Cela présente plusieurs avantages :
 
 En pratique, il est recommandé de définir un schéma OpenAPI aussi précis que possible.
 
----
+
 
 ## `spec` et `status` jouent des rôles différents
 
@@ -2192,7 +2192,7 @@ Le contrôleur agit.
 
 Le contrôleur met ensuite à jour le champ `status`.
 
----
+
 
 # Comprendre le lien avec les Operators
 
@@ -2264,7 +2264,7 @@ Mise à jour du status
 
 Les CRD représentent donc le point de départ de toute cette chaîne d'automatisation.
 
----
+
 
 # Pourquoi cette leçon est-elle importante ?
 
@@ -2277,7 +2277,7 @@ La majorité des plateformes cloud natives modernes s'appuient sur elles.
 Quelques exemples bien connus :
 
 | Projet | Ressources créées |
-|---------|-------------------|
+||-|
 | Cert-Manager | `Certificate`, `Issuer`, `ClusterIssuer` |
 | Prometheus Operator | `Prometheus`, `Alertmanager`, `ServiceMonitor` |
 | Argo CD | `Application`, `ApplicationSet` |
@@ -2289,7 +2289,7 @@ Lorsque vous installez l'un de ces projets, vous enrichissez automatiquement l'A
 
 C'est précisément ce mécanisme qui rend Kubernetes si adaptable à des domaines aussi variés que les bases de données, l'observabilité, la sécurité, le GitOps ou encore la gestion d'infrastructures cloud.
 
----
+
 
 # Bonnes pratiques
 
@@ -2306,7 +2306,7 @@ Lorsque vous concevrez vos propres CRD, gardez toujours à l'esprit les recomman
 
 Une CRD bien conçue facilitera grandement le développement et la maintenance de vos Operators.
 
----
+
 
 # Et maintenant ?
 
@@ -2327,7 +2327,7 @@ Vous comprenez désormais :
 
 Ces connaissances constituent les fondations indispensables avant de commencer le développement d'un Operator.
 
----
+
 
 # Dans le prochain module
 
