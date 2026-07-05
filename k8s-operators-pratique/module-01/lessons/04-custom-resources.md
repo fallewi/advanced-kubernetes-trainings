@@ -165,17 +165,7 @@ Une **Custom Resource** est une instance concrète créée à partir d'une CRD.
 
 On peut établir l'analogie suivante :
 
-| Élément | Analogie |
-||-|
-| CRD | Le plan d'une maison |
-| Custom Resource | Une maison construite à partir de ce plan |
 
-Ou encore :
-
-| Élément | Base de données |
-||--|
-| CRD | Schéma d'une table |
-| CR | Une ligne de cette table |
 
 Par exemple :
 
