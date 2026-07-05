@@ -2,7 +2,7 @@
 
 **Navigation :** [← Leçon précédente : Le Control Plane](01-control-plane.md) | [Présentation du module](../README.md) | [Leçon suivante : Le Controller Pattern →](03-controller-pattern.md)
 
----
+
 
 # Introduction
 
@@ -36,7 +36,7 @@ Nous allons apprendre à l'étendre.
 
 Avant d'en arriver là, il est indispensable de comprendre les règles qui gouvernent cette API.
 
----
+
 
 # Pourquoi comprendre l'API Kubernetes ?
 
@@ -80,7 +80,7 @@ Toutes ces opérations sont rendues possibles grâce à l'API Machinery.
 
 Sans elle, Kubernetes ne serait qu'un simple orchestrateur incapable de comprendre les objets manipulés par les utilisateurs.
 
----
+
 
 # Qu'est-ce que l'API Machinery ?
 
@@ -104,7 +104,7 @@ Même les composants internes du cluster utilisent ces mécanismes.
 
 Le Scheduler, les Controllers, les kubelets ainsi que les Operators communiquent tous avec Kubernetes en utilisant cette même API.
 
----
+
 
 # Une API pensée comme un véritable langage
 
@@ -133,7 +133,7 @@ Les Operators que nous construirons dans cette formation respecteront exactement
 
 Pour un utilisateur, un Custom Resource développé avec Kubebuilder donnera ainsi l'impression de faire partie intégrante de Kubernetes.
 
----
+
 
 # Les principes de conception de l'API Kubernetes
 
@@ -143,7 +143,7 @@ Ces principes ont été conçus afin de garantir une API cohérente, évolutive 
 
 Comprendre ces règles est essentiel avant de créer nos propres ressources personnalisées.
 
----
+
 
 # Une API RESTful
 
@@ -177,7 +177,7 @@ désigne l'ensemble des Deployments appartenant au groupe d'API `apps`.
 
 Cette organisation permet à tous les outils compatibles Kubernetes de communiquer de manière uniforme avec le cluster.
 
----
+
 
 # Pourquoi Kubernetes utilise REST ?
 
@@ -205,7 +205,7 @@ Cette homogénéité facilite le développement d'outils comme :
 
 Tous utilisent exactement les mêmes mécanismes de communication.
 
----
+
 
 # Les principes REST appliqués à Kubernetes
 
@@ -228,7 +228,7 @@ Chaque ressource possède :
 
 Cette approche permet de manipuler toutes les ressources de manière uniforme.
 
----
+
 
 ## Les méthodes HTTP
 
@@ -237,7 +237,7 @@ Chaque opération réalisée sur une ressource correspond à une méthode HTTP.
 Le tableau suivant résume les principales méthodes utilisées.
 
 | Méthode | Utilisation |
-|----------|-------------|
+|-|-|
 | GET | Lire une ressource |
 | POST | Créer une ressource |
 | PUT | Remplacer une ressource existante |
@@ -262,7 +262,7 @@ aboutira généralement à une requête **POST** ou **PATCH**, selon que la ress
 
 Comprendre cette correspondance sera particulièrement utile lorsque nous manipulerons directement l'API Kubernetes sans passer par `kubectl`.
 
----
+
 
 ## Une API sans état (Stateless)
 
@@ -284,7 +284,7 @@ Elle permet également de répartir les requêtes entre plusieurs API Servers sa
 
 C'est l'une des raisons pour lesquelles Kubernetes peut fonctionner dans des clusters de très grande taille.
 
----
+
 
 ## Une interface uniforme
 
@@ -312,7 +312,7 @@ Une fois les conventions maîtrisées, elles s'appliquent naturellement à l'ens
 
 C'est précisément cette cohérence que nous chercherons à reproduire lorsque nous développerons nos propres Custom Resources avec Kubebuilder.
 
----
+
 
 # Vers les extensions spécifiques à Kubernetes
 
@@ -342,7 +342,7 @@ Elle permet à Kubernetes de faire évoluer son API de manière progressive, san
 
 Avant de développer nos propres Operators, nous devons donc comprendre comment cette API est organisée.
 
----
+
 
 # Les ressources sont représentées par des URL
 
@@ -388,7 +388,7 @@ Il leur suffit de construire l'URL correspondant à cette ressource.
 
 Cette uniformité constitue l'un des piliers de l'écosystème Kubernetes.
 
----
+
 
 # Une structure cohérente pour toutes les ressources
 
@@ -428,7 +428,7 @@ On retrouve généralement :
 
 Une fois cette organisation comprise, il devient très facile de naviguer dans l'ensemble de l'API Kubernetes.
 
----
+
 
 # Les groupes d'API (API Groups)
 
@@ -460,7 +460,7 @@ Cette organisation facilite énormément la maintenance du projet.
 
 Elle permet également à plusieurs équipes de développer différentes parties de Kubernetes sans interférer les unes avec les autres.
 
----
+
 
 # Le groupe Core
 
@@ -493,7 +493,7 @@ Ces ressources constituent les briques de base de Kubernetes.
 
 Elles sont utilisées quotidiennement par pratiquement toutes les applications déployées sur un cluster.
 
----
+
 
 # Les groupes spécialisés
 
@@ -502,7 +502,7 @@ Les autres ressources sont réparties dans différents groupes spécialisés.
 Par exemple :
 
 | Groupe | Contenu |
-|----------|---------|
+|-||
 | apps | Deployments, StatefulSets, ReplicaSets, DaemonSets |
 | batch | Jobs, CronJobs |
 | networking.k8s.io | Ingress, NetworkPolicy |
@@ -515,7 +515,7 @@ Chaque groupe possède ses propres ressources et son propre cycle d'évolution.
 
 Cette organisation permet aux développeurs de faire évoluer indépendamment chaque domaine fonctionnel de Kubernetes.
 
----
+
 
 # Pourquoi les API Groups sont-ils importants pour les Operators ?
 
@@ -563,7 +563,7 @@ désignent deux ressources totalement différentes.
 
 C'est exactement le même principe que les noms de domaine sur Internet.
 
----
+
 
 # Architecture générale de l'API
 
@@ -610,7 +610,7 @@ Lorsque nous créerons notre propre Operator, notre CRD apparaîtra exactement a
 
 Pour les utilisateurs, elle sera manipulée exactement comme une ressource officielle.
 
----
+
 
 # Le versionnement de l'API Kubernetes
 
@@ -628,7 +628,7 @@ Kubernetes a donc mis en place un mécanisme particulièrement robuste permettan
 
 Cette approche garantit qu'une ancienne application pourra continuer à fonctionner même si une nouvelle version de la ressource est disponible.
 
----
+
 
 # Les trois types de versionnement
 
@@ -656,7 +656,7 @@ Cette version indique à Kubernetes comment interpréter la structure de la ress
 
 C'est celle que nous utiliserons quotidiennement avec Kubebuilder.
 
----
+
 
 ## 2. La Resource Version
 
@@ -672,7 +672,7 @@ Elle sert principalement à gérer les accès concurrents.
 
 Nous reviendrons en détail sur ce mécanisme dans une prochaine section.
 
----
+
 
 ## 3. La version interne des objets
 
@@ -686,7 +686,7 @@ L'utilisateur n'a donc jamais besoin de s'en préoccuper.
 
 Cette architecture permet à Kubernetes de supporter simultanément plusieurs versions d'une même API.
 
----
+
 
 # Le cycle de conversion des versions
 
@@ -744,7 +744,7 @@ Lorsque nous développerons nos propres Operators, nos ressources devront respec
 
 Comprendre cette architecture est donc indispensable avant d'aborder les **Custom Resource Definitions (CRD)** dans les prochains chapitres.
 
----
+
 
 # Une structure commune à toutes les ressources
 
@@ -805,7 +805,7 @@ Avant même de savoir ce que contient la ressource, l'API Server sait :
 
 Cette organisation constitue le socle de toute l'API Kubernetes.
 
----
+
 
 # Anatomie d'une ressource Kubernetes
 
@@ -839,7 +839,7 @@ Chaque partie possède une responsabilité bien définie.
 
 Nous allons maintenant étudier chacune d'elles en détail.
 
----
+
 
 # apiVersion
 
@@ -880,7 +880,7 @@ Grâce à cette information, il sait immédiatement :
 
 Sans ce champ, Kubernetes serait incapable de comprendre la structure du document.
 
----
+
 
 # Pourquoi apiVersion est-il indispensable ?
 
@@ -898,7 +898,7 @@ Cette capacité garantit une excellente compatibilité entre les différentes ve
 
 C'est également ce mécanisme qui permettra à nos futures CRDs d'évoluer sans casser les applications déjà déployées.
 
----
+
 
 # kind
 
@@ -952,7 +952,7 @@ kind: RedisCluster
 
 Ces ressources seront totalement personnalisées mais respecteront exactement les mêmes conventions que les objets natifs de Kubernetes.
 
----
+
 
 # metadata
 
@@ -966,7 +966,7 @@ Une partie de ces informations est fournie par l'utilisateur.
 
 Une autre est générée automatiquement par Kubernetes.
 
----
+
 
 ## Le nom de la ressource
 
@@ -981,7 +981,7 @@ Le nom constitue l'identifiant lisible de la ressource.
 
 Deux ressources de même type ne peuvent pas partager le même nom dans un même namespace.
 
----
+
 
 ## Le namespace
 
@@ -998,7 +998,7 @@ Le namespace agit comme une frontière logique.
 
 Deux ressources portant le même nom peuvent donc parfaitement coexister si elles appartiennent à deux namespaces différents.
 
----
+
 
 ## Les labels
 
@@ -1028,7 +1028,7 @@ Les Services utilisent notamment les labels pour déterminer quels Pods doivent 
 
 Nous retrouverons très régulièrement ce mécanisme dans les Operators.
 
----
+
 
 ## Les annotations
 
@@ -1047,7 +1047,7 @@ Par exemple :
 
 Contrairement aux labels, elles ne sont généralement pas utilisées pour sélectionner des ressources.
 
----
+
 
 ## L'UID
 
@@ -1063,7 +1063,7 @@ Même si une ressource est supprimée puis recréée avec le même nom, son UID 
 
 Cela permet à Kubernetes de distinguer deux objets portant pourtant le même nom.
 
----
+
 
 ## Le ResourceVersion
 
@@ -1081,7 +1081,7 @@ Elle sera utilisée pour gérer les accès concurrents et éviter les conflits d
 
 Nous reviendrons plus loin sur son fonctionnement détaillé.
 
----
+
 
 # spec
 
@@ -1119,7 +1119,7 @@ Il ne décrit jamais une suite d'actions.
 
 C'est précisément ce qui fait toute la puissance du modèle déclaratif.
 
----
+
 
 # Pourquoi Spec est-il si important ?
 
@@ -1151,7 +1151,7 @@ Ces informations représenteront la configuration souhaitée d'une base PostgreS
 
 Notre Operator sera chargé de transformer cette description en ressources Kubernetes.
 
----
+
 
 # status
 
@@ -1185,14 +1185,14 @@ Si un Pod tombe en panne, ce champ évoluera automatiquement.
 
 Le `status` constitue donc le reflet permanent de l'état réel du cluster.
 
----
+
 
 # Spec contre Status
 
 Cette séparation est probablement **le concept le plus important de toute l'API Kubernetes**.
 
 | Spec | Status |
-|-------|---------|
+|-||
 | Décrit l'état souhaité | Décrit l'état réel |
 | Renseigné par l'utilisateur | Renseigné par Kubernetes ou un Operator |
 | Sert de référence pour la réconciliation | Informe sur l'état courant |
@@ -1210,7 +1210,7 @@ S'ils diffèrent, il déclenche une réconciliation.
 
 C'est exactement ce que nous implémenterons dans nos futurs Operators.
 
----
+
 
 # À retenir
 
@@ -1256,7 +1256,7 @@ Cette capacité d'auto-description est l'une des caractéristiques qui rendent K
 
 Lorsqu'une nouvelle CRD est installée dans un cluster, elle devient immédiatement visible par tous les outils compatibles Kubernetes, sans qu'aucune modification ne soit nécessaire.
 
----
+
 
 # Une API capable de se décrire elle-même
 
@@ -1280,7 +1280,7 @@ Deux clusters Kubernetes n'exposent donc pas nécessairement les mêmes API.
 
 Par exemple, un cluster possédant plusieurs Operators installés présentera naturellement davantage de ressources qu'un cluster Kubernetes fraîchement installé.
 
----
+
 
 # Les points d'entrée de l'API Discovery
 
@@ -1310,7 +1310,7 @@ Cette approche permet à Kubernetes de rester totalement extensible.
 
 Aucun outil n'a besoin d'être recompilé lorsqu'une nouvelle API apparaît.
 
----
+
 
 # Exemple de découverte avec kubectl
 
@@ -1338,7 +1338,7 @@ Elles permettent notamment de vérifier qu'une CRD a bien été installée.
 
 Après avoir développé notre premier Operator avec Kubebuilder, nous utiliserons très régulièrement ces commandes afin de confirmer que notre nouvelle ressource est bien reconnue par Kubernetes.
 
----
+
 
 # Pourquoi cette découverte automatique est-elle importante ?
 
@@ -1370,7 +1370,7 @@ Notre ressource devient alors un véritable citoyen de l'écosystème Kubernetes
 
 C'est précisément ce qui rend les Operators si puissants.
 
----
+
 
 # Les sous-ressources (Subresources)
 
@@ -1386,7 +1386,7 @@ Une sous-ressource représente une partie spécifique d'un objet Kubernetes pouv
 
 Cette séparation améliore la sécurité, réduit les risques de conflits et facilite le travail des contrôleurs.
 
----
+
 
 # Pourquoi séparer une ressource en plusieurs parties ?
 
@@ -1413,7 +1413,7 @@ Si tout le monde modifiait le même objet simultanément, les conflits seraient 
 
 Kubernetes évite ce problème grâce aux sous-ressources.
 
----
+
 
 # La sous-ressource Status
 
@@ -1441,7 +1441,7 @@ Nous utiliserons très souvent cette fonctionnalité avec Kubebuilder.
 
 La méthode `Status().Update()` du client Kubernetes exploite précisément cette sous-ressource.
 
----
+
 
 # La sous-ressource Scale
 
@@ -1459,7 +1459,7 @@ Il agit uniquement sur la sous-ressource **scale**.
 
 Cette approche limite considérablement les risques de conflits entre plusieurs contrôleurs.
 
----
+
 
 # Les avantages des sous-ressources
 
@@ -1475,7 +1475,7 @@ Elles permettent :
 
 Lors du développement d'Operators, nous activerons généralement la sous-ressource `status` afin de respecter les bonnes pratiques de Kubernetes.
 
----
+
 
 # resourceVersion : le gardien de la cohérence
 
@@ -1496,7 +1496,7 @@ Cette valeur agit comme un numéro de révision.
 
 Elle permet de savoir précisément quelle est la version actuelle de la ressource.
 
----
+
 
 # Pourquoi resourceVersion existe-t-il ?
 
@@ -1522,7 +1522,7 @@ Ce mécanisme est appelé **Optimistic Concurrency Control**.
 
 Il permet à Kubernetes de gérer efficacement des milliers de modifications simultanées sans verrouiller les ressources.
 
----
+
 
 # resourceVersion et les mécanismes Watch
 
@@ -1540,7 +1540,7 @@ C'est précisément ce mécanisme que nous utiliserons lorsque nous développero
 
 Notre méthode `Reconcile()` sera déclenchée uniquement lorsqu'un événement intéressant sera détecté.
 
----
+
 
 # Les Watch : le cœur du modèle événementiel
 
@@ -1562,7 +1562,7 @@ Kubebuilder repose entièrement sur ce principe.
 
 Nos futurs Operators fonctionneront eux aussi grâce à des mécanismes **Watch**.
 
----
+
 
 # Cycle complet d'une modification de ressource
 
@@ -1597,7 +1597,7 @@ Enfin, il lance une nouvelle boucle de réconciliation.
 
 C'est exactement ce comportement que nous reproduirons dans tous les Operators développés au cours de cette formation.
 
----
+
 
 # À retenir
 
@@ -1623,7 +1623,7 @@ Vous apprendrez également à observer la structure des ressources Kubernetes, �
 
 Ces laboratoires constituent une excellente préparation aux prochains modules de cette formation. Les Operators développés avec Kubebuilder utiliseront exactement les mêmes mécanismes.
 
----
+
 
 # Objectifs des laboratoires
 
@@ -1638,7 +1638,7 @@ Ces laboratoires constituent une excellente préparation aux prochains modules d
 - analyser le fonctionnement des mécanismes **Watch** ;
 - préparer le terrain pour la création de vos propres ressources personnalisées (CRD).
 
----
+
 
 # Laboratoire 1 — Découverte des API Kubernetes
 
@@ -1671,7 +1671,7 @@ Vous remarquerez que chacun possède une ou plusieurs versions.
 
 Cette première exploration permet déjà de constater que Kubernetes est capable de décrire dynamiquement son API.
 
----
+
 
 # Laboratoire 2 — Explorer les ressources disponibles
 
@@ -1708,7 +1708,7 @@ Dans les prochains modules, lorsque nous installerons notre premier Operator, un
 
 Ce sera la preuve que notre CRD est désormais intégrée à Kubernetes.
 
----
+
 
 # Laboratoire 3 — Explorer une ressource complète
 
@@ -1753,7 +1753,7 @@ Elles ont été générées automatiquement par l'API Server.
 
 Cela illustre parfaitement la différence entre les données fournies par l'utilisateur et celles maintenues par Kubernetes.
 
----
+
 
 # Laboratoire 4 — Observer le champ Status
 
@@ -1789,7 +1789,7 @@ Le Pod passe successivement par différents états avant d'atteindre l'état **R
 
 Cette observation illustre parfaitement le fonctionnement du modèle déclaratif étudié précédemment.
 
----
+
 
 # Laboratoire 5 — Observer le champ resourceVersion
 
@@ -1831,7 +1831,7 @@ Cette simple expérience montre que Kubernetes attribue une nouvelle version à 
 
 C'est ce mécanisme qui permet aux contrôleurs de détecter les changements sans devoir comparer l'intégralité des objets.
 
----
+
 
 # Laboratoire 6 — Observer les événements Kubernetes
 
@@ -1855,7 +1855,7 @@ Chaque événement correspond à une action réalisée par un composant du Contr
 
 Ces informations sont particulièrement utiles lors du développement et du débogage d'un Operator.
 
----
+
 
 # Laboratoire 7 — Interroger directement l'API Server
 
@@ -1887,7 +1887,7 @@ Ces commandes montrent clairement que Kubernetes expose une véritable API REST.
 
 Tous les outils de l'écosystème Kubernetes fonctionnent selon ce même principe.
 
----
+
 
 # Ce qu'il faut retenir de ces laboratoires
 
@@ -1901,7 +1901,7 @@ Enfin, ils mettent en évidence le fonctionnement des mécanismes de découverte
 
 Ces notions seront réutilisées très régulièrement dans la suite de cette formation.
 
----
+
 
 # Résumé de la leçon
 
@@ -1936,7 +1936,7 @@ Enfin, nous avons étudié plusieurs mécanismes avancés de l'API Machinery :
 
 Tous ces concepts seront directement utilisés lors du développement d'Operators avec Kubebuilder.
 
----
+
 
 # Ce que vous devez maîtriser avant de poursuivre
 
@@ -1953,7 +1953,7 @@ Avant d'aborder la prochaine leçon, assurez-vous de maîtriser les notions suiv
 
 Ces connaissances seront indispensables pour comprendre le fonctionnement interne des Controllers et des Operators.
 
----
+
 
 # Préparation de la prochaine leçon
 
@@ -1965,7 +1965,7 @@ Dans la prochaine leçon, nous découvrirons comment les contrôleurs observent 
 
 Il s'agit probablement du concept le plus important de toute la formation, car il constitue la base du développement d'Operators avec Kubebuilder.
 
----
+
 
 # Navigation
 
