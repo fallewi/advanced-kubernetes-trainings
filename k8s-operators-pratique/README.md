@@ -2,8 +2,6 @@
 
 > Une formation complète, pratique et entièrement gratuite pour apprendre à concevoir des opérateurs Kubernetes prêts pour la production à l'aide de **Kubebuilder**.
 
----
-
 # Présentation de la formation
 
 Cette formation a été conçue pour vous apprendre à développer des **opérateurs Kubernetes** depuis leurs fondations jusqu'à leur mise en production.
@@ -14,18 +12,16 @@ Contrairement à une simple présentation théorique, cette formation adopte une
 
 L'objectif est de vous permettre d'acquérir les compétences nécessaires pour développer des opérateurs robustes, évolutifs et conformes aux bonnes pratiques utilisées dans les environnements Kubernetes modernes.
 
----
-
 # Informations générales
 
 | Élément | Description |
-|----------|-------------|
+|-|-|
 | **Durée estimée** | 8 semaines (40 à 50 heures de travail) |
 | **Niveau** | Intermédiaire à avancé |
 | **Prérequis** | Bonnes connaissances de Kubernetes, bases du langage Go, compréhension de la conteneurisation |
 | **Licence** | Formation libre et open source distribuée sous licence MIT |
 
----
+
 
 # Organisation de la formation
 
@@ -33,7 +29,7 @@ La formation est organisée en **huit modules progressifs**.
 
 Chaque module développe les connaissances acquises dans le précédent afin de construire progressivement une compréhension approfondie du développement d'opérateurs Kubernetes.
 
----
+
 
 # Module 1 — Exploration approfondie de l'architecture Kubernetes
 
@@ -48,7 +44,7 @@ Vous étudierez le fonctionnement interne de Kubernetes afin de comprendre comme
 - Le Controller Pattern
 - Les ressources personnalisées (Custom Resources)
 
----
+
 
 # Module 2 — Introduction aux opérateurs Kubernetes
 
@@ -63,7 +59,7 @@ Vous apprendrez également à utiliser Kubebuilder pour générer rapidement une
 - Préparation de l'environnement de développement
 - Création du premier opérateur
 
----
+
 
 # Module 3 — Développement de contrôleurs personnalisés
 
@@ -78,7 +74,7 @@ Vous apprendrez à concevoir des contrôleurs capables d'observer l'état du clu
 - Implémentation de la logique de réconciliation
 - Manipulation des ressources avec client-go
 
----
+
 
 # Module 4 — Techniques avancées de réconciliation
 
@@ -93,7 +89,7 @@ Vous apprendrez notamment à gérer les statuts, les conditions, les finalizers 
 - Watching et Indexing
 - Modèles avancés de réconciliation
 
----
+
 
 # Module 5 — Webhooks et contrôle d'admission
 
@@ -108,7 +104,7 @@ Ce module explique leur fonctionnement et leur intégration avec Kubebuilder.
 - Webhooks de mutation
 - Déploiement des Webhooks
 
----
+
 
 # Module 6 — Tests et débogage
 
@@ -123,7 +119,7 @@ Ce module présente les méthodes permettant de garantir la qualité des dévelo
 - Tests d'intégration
 - Débogage et observabilité
 
----
+
 
 # Module 7 — Préparation à la production
 
@@ -138,7 +134,7 @@ Ce module présente les meilleures pratiques utilisées dans les projets profess
 - Haute disponibilité
 - Performances et montée en charge
 
----
+
 
 # Module 8 — Concepts avancés et cas d'utilisation réels
 
@@ -146,66 +142,19 @@ Le dernier module explore des architectures utilisées dans les grandes platefor
 
 Vous découvrirez notamment les problématiques liées au multi-tenant, aux applications Stateful ainsi qu'à la composition d'opérateurs.
 
-### Contenu
 
-- Multi-tenancy et isolation des namespaces
-- Composition d'opérateurs
-- Gestion des applications Stateful
-- Bonnes pratiques issues du terrain
-
----
-
-# Mise en route
 
 ## Prérequis techniques
 
 Avant de commencer cette formation, assurez-vous de disposer des outils suivants :
 
 - Go 1.24 ou version supérieure
-- kubectl
+- kubectl & kubernetes
 - Docker ou Podman
-- kind v0.29 ou version supérieure
 - Kubebuilder 4.7 ou version supérieure
 
----
 
-# Installation de l'environnement
 
-## 1. Cloner le dépôt Git
-
-```bash
-git clone https://github.com/piyushjajoo/k8s-operators-course.git
-cd k8s-operators-course
-```
-
----
-
-## 2. Préparer l'environnement de développement
-
-```bash
-./scripts/setup-dev-environment.sh
-```
-
----
-
-## 3. Créer un cluster Kind
-
-```bash
-./scripts/setup-kind-cluster.sh
-```
-
----
-
-## 4. Commencer la formation
-
-Accédez au premier module :
-
-```bash
-cd module-01
-cat README.md
-```
-
----
 
 # Méthode pédagogique
 
@@ -220,7 +169,7 @@ Les principaux axes pédagogiques sont les suivants :
 - **Une montée progressive en complexité** : les premiers exemples sont volontairement simples avant d'évoluer vers des opérateurs complets destinés à la production.
 - **Des cas d'usage réalistes** : les projets développés sont directement inspirés d'environnements professionnels.
 
----
+
 
 # Ressources complémentaires
 
