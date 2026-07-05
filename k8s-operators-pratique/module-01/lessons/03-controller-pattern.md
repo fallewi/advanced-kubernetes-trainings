@@ -2,7 +2,6 @@
 
 **Navigation :** [Présentation du module](../README.md) | [Leçon précédente : API Machinery ←](02-api-machinery.md) | [Partie suivante : La boucle de réconciliation →](03-reconciliation-loop.md)
 
----
 
 # Introduction
 
@@ -36,7 +35,7 @@ Les Operators que nous développerons avec Kubebuilder ne sont finalement rien d
 
 Avant d'apprendre à écrire notre propre contrôleur, nous devons donc comprendre en profondeur ce modèle de conception.
 
----
+
 
 # Pourquoi Kubernetes a-t-il besoin de contrôleurs ?
 
@@ -78,7 +77,7 @@ Il surveille un ensemble de ressources, compare continuellement leur état actue
 
 Sans contrôleur, aucune ressource Kubernetes ne pourrait évoluer automatiquement.
 
----
+
 
 # Une philosophie héritée des systèmes autonomes
 
@@ -108,7 +107,7 @@ Le système devient ensuite responsable de maintenir cet état dans le temps.
 
 Le Controller Pattern est l'implémentation concrète de cette philosophie dans Kubernetes.
 
----
+
 
 # L'évolution historique des contrôleurs
 
@@ -130,7 +129,7 @@ Lorsque Kubernetes a été publié en open source en 2014, cette architecture es
 
 Aujourd'hui encore, pratiquement toutes les fonctionnalités natives de Kubernetes reposent sur ce modèle.
 
----
+
 
 # Qu'est-ce qu'un contrôleur ?
 
@@ -162,7 +161,7 @@ Chaque contrôleur possède un périmètre clairement défini.
 
 Cette spécialisation simplifie considérablement l'architecture globale de Kubernetes.
 
----
+
 
 # Une analogie : le thermostat d'une maison
 
@@ -202,7 +201,7 @@ Le contrôleur compare les deux valeurs.
 
 S'il détecte une différence, il agit.
 
----
+
 
 # Une architecture composée de nombreux contrôleurs
 
@@ -232,7 +231,7 @@ Il peut évoluer indépendamment des autres composants.
 
 Cette approche facilite également les tests, la maintenance et les évolutions futures.
 
----
+
 
 # Les Operators : des contrôleurs personnalisés
 
@@ -252,7 +251,7 @@ Pour le cluster, il n'existera aucune différence entre un contrôleur officiel 
 
 Notre application deviendra ainsi un citoyen de première classe de l'écosystème Kubernetes.
 
----
+
 
 # Ce que vous devez retenir
 
@@ -281,7 +280,7 @@ Autrement dit, apprendre à écrire un Operator revient essentiellement à appre
 
 C'est pourquoi cette notion constitue le cœur de toute cette formation.
 
----
+
 
 # Le principe de la réconciliation
 
@@ -304,7 +303,7 @@ Cette différence est appelée **Drift**, ou dérive de configuration.
 
 L'objectif permanent de Kubernetes est donc de supprimer cette dérive.
 
----
+
 
 # Pourquoi une boucle permanente ?
 
@@ -340,7 +339,7 @@ Elle ne s'exécute pas une seule fois lors de la création d'une ressource.
 
 Elle accompagne toute sa durée de vie.
 
----
+
 
 # Le modèle déclaratif prend vie
 
@@ -369,7 +368,7 @@ Pour cela, il suit toujours la même démarche :
 
 Cette logique extrêmement simple est reproduite des milliers de fois par seconde dans un cluster Kubernetes.
 
----
+
 
 # Les quatre étapes de la réconciliation
 
@@ -388,7 +387,7 @@ Ce diagramme représente probablement le fonctionnement le plus important de Kub
 
 Chaque étape mérite d'être comprise en détail.
 
----
+
 
 # Étape 1 : Lire l'état souhaité
 
@@ -411,7 +410,7 @@ Le contrôleur comprend alors que cinq Pods doivent exister.
 
 Il connaît uniquement l'objectif à atteindre.
 
----
+
 
 # Étape 2 : Observer l'état réel
 
@@ -435,7 +434,7 @@ Le contrôleur doit donc toujours repartir de l'état réellement observé.
 
 Il ne suppose jamais que le cluster correspond encore à ce qu'il avait vu précédemment.
 
----
+
 
 # Étape 3 : Comparer les deux états
 
@@ -499,7 +498,7 @@ Décider.
 
 Corriger.
 
----
+
 
 # Étape 4 : Corriger le cluster
 
@@ -521,7 +520,7 @@ Une fois ces actions terminées, le contrôleur ne s'arrête pas.
 
 Il recommence immédiatement une nouvelle boucle.
 
----
+
 
 # Un exemple concret
 
@@ -564,7 +563,7 @@ La boucle de réconciliation est terminée.
 
 Jusqu'au prochain événement.
 
----
+
 
 # La réconciliation est idempotente
 
@@ -590,7 +589,7 @@ Ils doivent toujours produire exactement le même résultat.
 
 Nous appliquerons cette règle dans chacun des Operators développés avec Kubebuilder.
 
----
+
 
 # La boucle de réconciliation dans un Operator
 
@@ -634,7 +633,7 @@ Nous ne développerons donc rien de différent de Kubernetes.
 
 Nous reproduirons exactement son fonctionnement.
 
----
+
 
 # Cycle complet d'une réconciliation
 
@@ -670,7 +669,7 @@ Ce diagramme représente pratiquement toute la logique interne de Kubernetes.
 
 Il représente également ce que nous implémenterons dans notre future méthode `Reconcile()`.
 
----
+
 
 # Pourquoi cette architecture est-elle si performante ?
 
@@ -686,7 +685,7 @@ Nous étudierons précisément ce mécanisme dans la prochaine partie consacrée
 
 Cette architecture permet à Kubernetes de gérer plusieurs centaines de milliers de ressources avec une consommation très faible.
 
----
+
 
 # Ce que vous devez retenir
 
@@ -749,7 +748,7 @@ Ils sont également au cœur de **controller-runtime**, la bibliothèque utilis�
 
 Comprendre leur fonctionnement est indispensable avant d'écrire notre premier Operator.
 
----
+
 
 # Une architecture orientée événements
 
@@ -775,7 +774,7 @@ Elle limite la consommation des ressources système.
 
 Enfin, elle permet à Kubernetes de gérer des clusters de très grande taille sans surcharge excessive.
 
----
+
 
 # Les Watches : écouter les changements
 
@@ -797,7 +796,7 @@ Il est directement informé.
 
 Cette approche est beaucoup plus efficace que le polling.
 
----
+
 
 # Les événements transmis par un Watch
 
@@ -819,7 +818,7 @@ Chaque événement contient les informations nécessaires pour identifier préci
 
 Le contrôleur peut alors décider de lancer une nouvelle boucle de réconciliation.
 
----
+
 
 # Fonctionnement général d'un Watch
 
@@ -847,7 +846,7 @@ Toutes les informations transitent par l'API Server.
 
 Celui-ci agit comme un intermédiaire chargé de diffuser les événements vers les clients intéressés.
 
----
+
 
 # Les limites des Watches
 
@@ -867,7 +866,7 @@ Les développeurs de Kubernetes ont donc imaginé un second mécanisme destiné 
 
 Ce mécanisme est appelé **Informer**.
 
----
+
 
 # Les Informers
 
@@ -883,7 +882,7 @@ Elle diminue également la charge de calcul imposée à l'API Server.
 
 C'est l'une des raisons pour lesquelles Kubernetes reste performant même lorsque plusieurs centaines de contrôleurs sont actifs simultanément.
 
----
+
 
 # Le cache local des Informers
 
@@ -905,7 +904,7 @@ Cette stratégie est utilisée partout dans Kubernetes.
 
 Lorsque nous utiliserons **controller-runtime**, nous profiterons automatiquement de ces optimisations sans avoir à les développer nous-mêmes.
 
----
+
 
 # Architecture d'un Informer
 
@@ -940,7 +939,7 @@ Le cache joue ici un rôle central.
 
 Il devient la source de données privilégiée de tous les contrôleurs.
 
----
+
 
 # Les Work Queues
 
@@ -964,7 +963,7 @@ Le contrôleur traite ensuite les éléments un par un.
 
 Cette approche garantit un traitement ordonné et évite les surcharges.
 
----
+
 
 # Pourquoi utiliser une file d'attente ?
 
@@ -980,7 +979,7 @@ Par exemple, si un Operator ne parvient pas à créer un Pod parce que l'API Ser
 
 Cette stratégie améliore considérablement la robustesse du système.
 
----
+
 
 # Le traitement d'une Work Queue
 
@@ -1012,7 +1011,7 @@ Si tout se déroule correctement, la tâche est supprimée.
 
 En cas d'échec, elle peut être replacée dans la file afin d'être traitée ultérieurement.
 
----
+
 
 # Le rôle de controller-runtime
 
@@ -1033,7 +1032,7 @@ Toute l'infrastructure nécessaire à la surveillance des ressources sera déjà
 
 C'est l'une des principales raisons pour lesquelles Kubebuilder simplifie autant le développement d'Operators.
 
----
+
 
 # De l'événement jusqu'à la réconciliation
 
@@ -1051,7 +1050,7 @@ Le déroulement complet est le suivant.
 
 Cette chaîne d'événements est reproduite des milliers de fois par seconde dans un cluster Kubernetes.
 
----
+
 
 # Vue d'ensemble
 
@@ -1097,7 +1096,7 @@ Les Operators développés avec Kubebuilder suivront exactement cette organisati
 
 La seule différence concernera les ressources surveillées.
 
----
+
 
 # Ce que vous devez retenir
 
@@ -1132,7 +1131,7 @@ C'est également cette approche qui rend Kubernetes extrêmement extensible. Les
 
 Avant de créer nos propres contrôleurs, il est donc indispensable de comprendre comment fonctionnent ceux qui sont intégrés nativement au cluster.
 
----
+
 
 # Une architecture distribuée
 
@@ -1157,7 +1156,7 @@ Chaque contrôleur lit des informations via l'API Server et y écrit les modific
 
 Cette architecture garantit un excellent découplage entre les différents composants.
 
----
+
 
 # Vue d'ensemble des principaux contrôleurs
 
@@ -1203,7 +1202,7 @@ Pourtant, ils reposent tous exactement sur les mêmes mécanismes étudiés pré
 
 La seule différence réside dans les ressources qu'ils surveillent.
 
----
+
 
 # Le Deployment Controller
 
@@ -1225,7 +1224,7 @@ Il délègue cette responsabilité à un autre contrôleur spécialisé.
 
 Cette séparation des responsabilités permet de réutiliser les ReplicaSets dans différents contextes et simplifie considérablement l'architecture interne de Kubernetes.
 
----
+
 
 # Fonctionnement du Deployment Controller
 
@@ -1250,7 +1249,7 @@ Son travail s'arrête à ce niveau.
 
 Il ne crée jamais lui-même les Pods.
 
----
+
 
 # Le ReplicaSet Controller
 
@@ -1294,7 +1293,7 @@ Le cluster est de nouveau conforme.
 
 L'utilisateur n'a rien eu à faire.
 
----
+
 
 # Une chaîne de contrôleurs
 
@@ -1330,7 +1329,7 @@ Chaque contrôleur produit une ressource qui sera ensuite prise en charge par un
 
 Cette architecture en cascade rend Kubernetes extrêmement modulaire.
 
----
+
 
 # Le StatefulSet Controller
 
@@ -1355,7 +1354,7 @@ Les volumes persistants resteront également associés au bon Pod.
 
 Cette logique est indispensable pour les applications distribuées comme PostgreSQL, Cassandra, Kafka ou Elasticsearch.
 
----
+
 
 # Le DaemonSet Controller
 
@@ -1378,7 +1377,7 @@ Il crée automatiquement un nouveau Pod sur ce nœud.
 
 Inversement, lorsqu'un nœud disparaît, les Pods associés sont supprimés.
 
----
+
 
 # Le Job Controller
 
@@ -1400,7 +1399,7 @@ Si un Pod échoue avant la fin du traitement, le Job Controller peut automatique
 
 Une fois le nombre de traitements demandé atteint, le Job est considéré comme terminé.
 
----
+
 
 # Le Node Controller
 
@@ -1418,7 +1417,7 @@ Il peut alors :
 
 Cette surveillance continue améliore considérablement la résilience du cluster.
 
----
+
 
 # Le Namespace Controller
 
@@ -1449,7 +1448,7 @@ Ce n'est qu'une fois le Namespace complètement vidé qu'il est définitivement 
 
 Cette approche garantit qu'aucune ressource orpheline ne subsiste dans le cluster.
 
----
+
 
 # Tous les contrôleurs utilisent le même modèle
 
@@ -1475,7 +1474,7 @@ Seule la logique métier exécutée dans la fonction de réconciliation change.
 
 C'est précisément ce modèle que Kubebuilder reproduira lorsque nous développerons nos propres Operators.
 
----
+
 
 # Pourquoi cette architecture est-elle si évolutive ?
 
@@ -1499,7 +1498,7 @@ Ils utilisent exactement les mêmes mécanismes que les contrôleurs natifs.
 
 Ainsi, Kubernetes reste cohérent, quelle que soit la complexité des applications qu'il héberge.
 
----
+
 
 # Les Operators : des contrôleurs comme les autres
 
@@ -1518,7 +1517,7 @@ La seule différence sera le type de ressource observé.
 
 Le mécanisme de réconciliation restera rigoureusement identique.
 
----
+
 
 # Ce que vous devez retenir
 
@@ -1558,7 +1557,7 @@ Nous développerons un contrôleur qui s'intégrera naturellement au fonctionnem
 
 C'est cette homogénéité qui fait toute la puissance de l'écosystème Kubernetes.
 
----
+
 
 # Comment un Operator s'intègre dans Kubernetes
 
@@ -1608,7 +1607,7 @@ Le développeur décrit donc un objectif.
 
 L'Operator se charge de le concrétiser.
 
----
+
 
 # Le cycle complet d'un Operator
 
@@ -1666,7 +1665,7 @@ Aucun mécanisme particulier n'est ajouté au cluster.
 
 Cette cohérence explique pourquoi les Operators s'intègrent aussi naturellement dans Kubernetes.
 
----
+
 
 # Les bonnes pratiques pour développer un Operator
 
@@ -1688,7 +1687,7 @@ Ces bonnes pratiques seront présentes dans chacun des projets réalisés au cou
 
 Elles permettront de développer des Operators robustes, fiables et capables de fonctionner dans des environnements de production.
 
----
+
 
 # Laboratoire 1 — Observer la réconciliation d'un Deployment
 
@@ -1726,7 +1725,7 @@ Aucune de ces opérations n'est réalisée directement par `kubectl`.
 
 Elles résultent du travail coordonné de plusieurs contrôleurs.
 
----
+
 
 # Laboratoire 2 — Observer une nouvelle réconciliation
 
@@ -1748,7 +1747,7 @@ Une nouvelle boucle de réconciliation a alors été déclenchée.
 
 Cet exercice illustre parfaitement le comportement autonome de Kubernetes.
 
----
+
 
 # Laboratoire 3 — Observer les événements du cluster
 
@@ -1773,7 +1772,7 @@ Vous pourrez généralement identifier :
 
 Chaque événement correspond à une décision prise automatiquement par un composant du Control Plane.
 
----
+
 
 # Laboratoire 4 — Observer les ressources créées automatiquement
 
@@ -1799,7 +1798,7 @@ Ce ReplicaSet possède lui-même plusieurs Pods.
 
 Cette hiérarchie sera reproduite dans les Operators que nous développerons plus tard.
 
----
+
 
 # Ce qu'il faut retenir de cette leçon
 
@@ -1819,7 +1818,7 @@ Tous suivent exactement le même modèle architectural.
 
 Cette homogénéité explique pourquoi les Operators développés avec Kubebuilder s'intègrent aussi naturellement dans Kubernetes.
 
----
+
 
 # Les connaissances acquises
 
@@ -1835,7 +1834,7 @@ Cette homogénéité explique pourquoi les Operators développés avec Kubebuild
 
 Ces compétences constituent le socle indispensable pour développer des Operators fiables et conformes aux bonnes pratiques de l'écosystème Kubernetes.
 
----
+
 
 # Transition vers le prochain chapitre
 
@@ -1849,7 +1848,7 @@ Nous verrons comment créer notre propre API Kubernetes, comment définir son sc
 
 À partir de ce moment, nous quitterons progressivement l'univers des ressources natives de Kubernetes pour commencer à construire les nôtres.
 
----
+
 
 # Navigation
 
