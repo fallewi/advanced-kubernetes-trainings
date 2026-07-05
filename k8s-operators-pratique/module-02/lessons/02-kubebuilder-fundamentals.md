@@ -1,11 +1,4 @@
----
-layout: default
-title: "02.2 Kubebuilder Fundamentals"
-nav_order: 2
-parent: "Module 2: Introduction to Operators"
-grand_parent: Modules
-mermaid: true
----
+
 
 # Lesson 2.2: Kubebuilder Fundamentals
 
