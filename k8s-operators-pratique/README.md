@@ -1,184 +1,233 @@
+# Création d'Opérateurs Kubernetes avec Kubebuilder
+
+> Une formation complète, pratique et entièrement gratuite pour apprendre à concevoir des opérateurs Kubernetes prêts pour la production à l'aide de **Kubebuilder**.
+
 ---
-layout: default
-title: Course Overview
-nav_order: 0
-nav_exclude: true
+
+# Présentation de la formation
+
+Cette formation a été conçue pour vous apprendre à développer des **opérateurs Kubernetes** depuis leurs fondations jusqu'à leur mise en production.
+
+Au fil des chapitres, vous découvrirez les mécanismes internes de Kubernetes, comprendrez le fonctionnement du **Control Plane**, explorerez le **Controller Pattern**, puis apprendrez à utiliser **Kubebuilder** afin de créer vos propres opérateurs capables d'automatiser le cycle de vie d'applications complexes.
+
+Contrairement à une simple présentation théorique, cette formation adopte une approche résolument pratique : chaque notion est illustrée par des démonstrations, des laboratoires et des exemples directement exploitables dans un environnement professionnel.
+
+L'objectif est de vous permettre d'acquérir les compétences nécessaires pour développer des opérateurs robustes, évolutifs et conformes aux bonnes pratiques utilisées dans les environnements Kubernetes modernes.
+
 ---
 
-# Building Kubernetes Operators 
+# Informations générales
 
-A comprehensive, hands-on and free course for building production-ready Kubernetes operators using Kubebuilder.
+| Élément | Description |
+|----------|-------------|
+| **Durée estimée** | 8 semaines (40 à 50 heures de travail) |
+| **Niveau** | Intermédiaire à avancé |
+| **Prérequis** | Bonnes connaissances de Kubernetes, bases du langage Go, compréhension de la conteneurisation |
+| **Licence** | Formation libre et open source distribuée sous licence MIT |
 
-## Course Overview
+---
 
-This course teaches you how to build Kubernetes operators from the ground up. You'll learn the fundamentals of Kubernetes architecture, the controller pattern, and how to use Kubebuilder to create custom operators that manage complex applications.
+# Organisation de la formation
 
-**Duration:** 8 weeks (40-50 hours total)  
-**Level:** Intermediate to Advanced  
-**Prerequisites:** Basic Kubernetes knowledge, Go programming fundamentals, understanding of containerization  
-**License:** Free and open-source - Licensed under [MIT License](LICENSE)
+La formation est organisée en **huit modules progressifs**.
 
-## Course Structure
+Chaque module développe les connaissances acquises dans le précédent afin de construire progressivement une compréhension approfondie du développement d'opérateurs Kubernetes.
 
-The course is divided into 8 modules, each building on the previous:
+---
 
-1. **[Module 1: Kubernetes Architecture Deep Dive](module-01/README.md)**
-   - [Control plane components](module-01/lessons/01-control-plane.md)
-   - [API machinery](module-01/lessons/02-api-machinery.md)
-   - [Controller pattern](module-01/lessons/03-controller-pattern.md)
-   - [Custom Resources](module-01/lessons/04-custom-resources.md)
+# Module 1 — Exploration approfondie de l'architecture Kubernetes
 
-2. **[Module 2: Introduction to Operators](module-02/README.md)**
-   - [Operator pattern](module-02/lessons/01-operator-pattern.md)
-   - [Kubebuilder fundamentals](module-02/lessons/02-kubebuilder-fundamentals.md)
-   - [Development environment](module-02/lessons/03-dev-environment.md)
-   - [Your first operator](module-02/lessons/04-first-operator.md)
+Ce premier module pose les fondations indispensables à toute la formation.
 
-3. **[Module 3: Building Custom Controllers](module-03/README.md)**
-   - [Controller runtime](module-03/lessons/01-controller-runtime.md)
-   - [API design](module-03/lessons/02-designing-api.md)
-   - [Reconciliation logic](module-03/lessons/03-reconciliation-logic.md)
-   - [Client operations](module-03/lessons/04-client-go.md)
+Vous étudierez le fonctionnement interne de Kubernetes afin de comprendre comment les opérateurs s'intègrent naturellement dans son architecture.
 
-4. **[Module 4: Advanced Reconciliation Patterns](module-04/README.md)**
-   - [Conditions and status](module-04/lessons/01-conditions-status.md)
-   - [Finalizers and cleanup](module-04/lessons/02-finalizers-cleanup.md)
-   - [Watching and indexing](module-04/lessons/03-watching-indexing.md)
-   - [Advanced patterns](module-04/lessons/04-advanced-patterns.md)
+### Contenu
 
-5. **[Module 5: Webhooks and Admission Control](module-05/README.md)**
-   - [Admission control](module-05/lessons/01-admission-control.md)
-   - [Validating webhooks](module-05/lessons/02-validating-webhooks.md)
-   - [Mutating webhooks](module-05/lessons/03-mutating-webhooks.md)
-   - [Webhook deployment](module-05/lessons/04-webhook-deployment.md)
+- Les composants du Control Plane
+- Les mécanismes internes de l'API Kubernetes (API Machinery)
+- Le Controller Pattern
+- Les ressources personnalisées (Custom Resources)
 
-6. **[Module 6: Testing and Debugging](module-06/README.md)**
-   - [Testing fundamentals](module-06/lessons/01-testing-fundamentals.md)
-   - [Unit testing](module-06/lessons/02-unit-testing-envtest.md)
-   - [Integration testing](module-06/lessons/03-integration-testing.md)
-   - [Debugging and observability](module-06/lessons/04-debugging-observability.md)
+---
 
-7. **[Module 7: Production Considerations](module-07/README.md)**
-   - [Packaging and distribution](module-07/lessons/01-packaging-distribution.md)
-   - [RBAC and security](module-07/lessons/02-rbac-security.md)
-   - [High availability](module-07/lessons/03-high-availability.md)
-   - [Performance and scalability](module-07/lessons/04-performance-scalability.md)
+# Module 2 — Introduction aux opérateurs Kubernetes
 
-8. **[Module 8: Advanced Topics and Real-World Patterns](module-08/README.md)**
-   - [Multi-tenancy and namespace isolation](module-08/lessons/01-multi-tenancy.md)
-   - [Operator composition](module-08/lessons/02-operator-composition.md)
-   - [Stateful application management](module-08/lessons/03-stateful-applications.md)
-   - [Real-world patterns and best practices](module-08/lessons/04-real-world-patterns.md)
+Après avoir compris l'architecture du cluster, vous découvrirez le concept d'**Operator Pattern**, véritable pierre angulaire de l'automatisation Kubernetes.
 
-## Getting Started
+Vous apprendrez également à utiliser Kubebuilder pour générer rapidement une structure de projet professionnelle.
 
-### Prerequisites
+### Contenu
 
-- Go 1.24+
+- Le modèle Operator Pattern
+- Les fondamentaux de Kubebuilder
+- Préparation de l'environnement de développement
+- Création du premier opérateur
+
+---
+
+# Module 3 — Développement de contrôleurs personnalisés
+
+Ce module est consacré au cœur du développement d'un opérateur.
+
+Vous apprendrez à concevoir des contrôleurs capables d'observer l'état du cluster puis de prendre automatiquement les décisions nécessaires afin de maintenir l'état souhaité.
+
+### Contenu
+
+- Controller Runtime
+- Conception d'une API Kubernetes
+- Implémentation de la logique de réconciliation
+- Manipulation des ressources avec client-go
+
+---
+
+# Module 4 — Techniques avancées de réconciliation
+
+Une fois les bases maîtrisées, ce module introduit les mécanismes avancés utilisés dans les opérateurs de production.
+
+Vous apprendrez notamment à gérer les statuts, les conditions, les finalizers ainsi que différentes stratégies d'observation des ressources.
+
+### Contenu
+
+- Gestion des Conditions et du Status
+- Finalizers et nettoyage des ressources
+- Watching et Indexing
+- Modèles avancés de réconciliation
+
+---
+
+# Module 5 — Webhooks et contrôle d'admission
+
+Les Webhooks permettent de contrôler les objets Kubernetes avant leur création ou leur modification.
+
+Ce module explique leur fonctionnement et leur intégration avec Kubebuilder.
+
+### Contenu
+
+- Contrôle d'admission Kubernetes
+- Webhooks de validation
+- Webhooks de mutation
+- Déploiement des Webhooks
+
+---
+
+# Module 6 — Tests et débogage
+
+Le développement d'un opérateur ne s'arrête pas à l'écriture du code.
+
+Ce module présente les méthodes permettant de garantir la qualité des développements grâce aux tests automatisés ainsi qu'aux outils de diagnostic.
+
+### Contenu
+
+- Fondamentaux des tests
+- Tests unitaires avec EnvTest
+- Tests d'intégration
+- Débogage et observabilité
+
+---
+
+# Module 7 — Préparation à la production
+
+Avant de déployer un opérateur dans un environnement réel, plusieurs aspects doivent être maîtrisés : sécurité, disponibilité, performances et distribution.
+
+Ce module présente les meilleures pratiques utilisées dans les projets professionnels.
+
+### Contenu
+
+- Packaging et distribution
+- RBAC et sécurité
+- Haute disponibilité
+- Performances et montée en charge
+
+---
+
+# Module 8 — Concepts avancés et cas d'utilisation réels
+
+Le dernier module explore des architectures utilisées dans les grandes plateformes Kubernetes.
+
+Vous découvrirez notamment les problématiques liées au multi-tenant, aux applications Stateful ainsi qu'à la composition d'opérateurs.
+
+### Contenu
+
+- Multi-tenancy et isolation des namespaces
+- Composition d'opérateurs
+- Gestion des applications Stateful
+- Bonnes pratiques issues du terrain
+
+---
+
+# Mise en route
+
+## Prérequis techniques
+
+Avant de commencer cette formation, assurez-vous de disposer des outils suivants :
+
+- Go 1.24 ou version supérieure
 - kubectl
-- Docker or Podman
-- kind v0.29+
-- Kubebuilder 4.7+
+- Docker ou Podman
+- kind v0.29 ou version supérieure
+- Kubebuilder 4.7 ou version supérieure
 
-### Setup
+---
 
-1. **Clone this repository:**
+# Installation de l'environnement
 
-   ```bash
-   git clone https://github.com/piyushjajoo/k8s-operators-course.git
-   cd k8s-operators-course
-   ```
+## 1. Cloner le dépôt Git
 
-2. **Set up your development environment:**
+```bash
+git clone https://github.com/piyushjajoo/k8s-operators-course.git
+cd k8s-operators-course
+```
 
-   ```bash
-   ./scripts/setup-dev-environment.sh
-   ```
+---
 
-3. **Create a kind cluster:**
+## 2. Préparer l'environnement de développement
 
-   ```bash
-   ./scripts/setup-kind-cluster.sh
-   ```
+```bash
+./scripts/setup-dev-environment.sh
+```
 
-4. **Start with [Module 1](module-01/README.md):**
+---
 
-   ```bash
-   cd module-01
-   cat README.md
-   ```
+## 3. Créer un cluster Kind
 
-## Learning Approach
+```bash
+./scripts/setup-kind-cluster.sh
+```
 
-This course emphasizes:
+---
 
-- **Practical Learning:** Every concept is demonstrated through hands-on exercises
-- **Visual Learning:** Extensive use of Mermaid diagrams for architecture and flows
-- **Progressive Complexity:** Start simple, build to production-ready operators
-- **Real-world Examples:** Build actual operators you can use
+## 4. Commencer la formation
 
-## Resources
+Accédez au premier module :
 
-- [Kubebuilder Documentation](https://book.kubebuilder.io/)
-- [Kubernetes API Documentation](https://kubernetes.io/docs/reference/kubernetes-api/)
-- [Operator Pattern](https://kubernetes.io/docs/concepts/extend-kubernetes/operator/)
-- [Complete Hello World Operator Code](https://github.com/piyushjajoo/hello-world-operator) built following this course, you can refer.
-- [Complete Postgres Operator Code](https://github.com/piyushjajoo/postgres-operator) built following this course, you can refer.
+```bash
+cd module-01
+cat README.md
+```
 
-## Contributing
+---
 
-We welcome contributions and feedback! Here's how you can help improve this course:
+# Méthode pédagogique
 
-### Reporting Issues
+Cette formation repose sur une progression pédagogique inspirée des meilleures formations techniques professionnelles.
 
-If you find bugs, typos, or errors in the course materials, please open an issue in this repository.
+Chaque notion est introduite progressivement afin de construire une compréhension durable des concepts.
 
-### Requesting New Concepts
+Les principaux axes pédagogiques sont les suivants :
 
-Have an idea for a new concept, topic, or module you'd like to see added to the course? We'd love to hear from you!
+- **Une approche fortement pratique** : chaque chapitre est accompagné d'exercices concrets.
+- **Une forte dimension visuelle** : de nombreux diagrammes Mermaid illustrent les architectures, les échanges entre composants et les flux internes de Kubernetes.
+- **Une montée progressive en complexité** : les premiers exemples sont volontairement simples avant d'évoluer vers des opérateurs complets destinés à la production.
+- **Des cas d'usage réalistes** : les projets développés sont directement inspirés d'environnements professionnels.
 
-**To request a new concept:**
+---
 
-1. **Open a new issue** in this repository with the label `enhancement` (if available) or use the title prefix `[Feature Request]`
-2. **Include the following information:**
-   - **Concept/Topic Name:** What concept would you like to see covered?
-   - **Description:** A brief description of the concept and why it would be valuable
-   - **Suggested Module:** Which module do you think this fits best in? (or suggest a new module)
-   - **Use Case:** How would this help learners build better operators?
-   - **Priority:** Is this a nice-to-have or a critical gap in the course?
+# Ressources complémentaires
 
-3. **Example format:**
-   ```
-   [Feature Request] Operator SDK Comparison
-   
-   Description: Add a lesson comparing Kubebuilder with Operator SDK
-   Suggested Module: Module 2 or new comparison module
-   Use Case: Help learners understand when to choose which framework
-   Priority: Nice-to-have
-   ```
+Pour approfondir certains sujets, les ressources suivantes sont recommandées :
 
-We review all requests and prioritize based on:
-- Community interest and upvotes
-- Alignment with course learning objectives
-- Complexity and time required to develop
-- Gaps in current course coverage
-
-**Note:** While we can't guarantee every request will be implemented, we value your input and will consider all suggestions!
-
-## License
-
-This course is **free and open-source**, licensed under the [MIT License](LICENSE). You are free to:
-
-- Use, share, and modify the course materials
-- Use for personal or commercial purposes
-- Distribute and sublicense the materials
-
-The only requirement is that you include the original copyright notice and license text. See the [LICENSE](LICENSE) file for full details.
-
-## Share Your Project
-
-If you've completed the course and built an operator, we'd love to see it! Share your project on LinkedIn and tag [Piyush Jajoo](https://www.linkedin.com/in/pjajoo). I'll make my best effort in my free time to review your code and provide feedback. Please consider ⭐ing the project if you found it useful.
-
-## Support
-
-For questions and discussions, please open an issue in this repository.
+- Documentation officielle de Kubebuilder
+- Documentation officielle de l'API Kubernetes
+- Documentation officielle de l'Operator Pattern
+- Code complet de l'opérateur Hello World réalisé avec Kubebuilder
+- Code complet d'un opérateur PostgreSQL développé tout au long de cette formation
