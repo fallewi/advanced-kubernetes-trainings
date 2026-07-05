@@ -276,12 +276,12 @@ La communauté Kubernetes a défini un **Operator Capability Model**, qui classe
 De manière simplifiée :
 
 | Niveau | Capacités principales |
-|--||
+|:-------:|-----------------------|
 | **Niveau 1** | Installation automatisée de l'application. |
-| **Niveau 2** | Gestion des mises à jour et de la configuration. |
-| **Niveau 3** | Gestion complète du cycle de vie (installation, sauvegardes, restauration, montée en charge, maintenance). |
-| **Niveau 4** | Automatisation avancée basée sur l'observation de l'état du système. |
-| **Niveau 5** | Auto-réparation (*Self-Healing*), optimisation continue et exploitation largement autonome. |
+| **Niveau 2** | Gestion des mises à jour, de la configuration et des opérations courantes. |
+| **Niveau 3** | Gestion complète du cycle de vie : installation, sauvegardes, restauration, montée en charge, mises à niveau et maintenance. |
+| **Niveau 4** | Automatisation avancée fondée sur l'observation de l'état du système, avec des décisions prises de manière proactive. |
+| **Niveau 5** | Auto-réparation (*Self-Healing*), auto-optimisation, adaptation continue et exploitation largement autonome de l'application. |
 
 La majorité des Operators utilisés en production visent au minimum le **niveau 3**, qui offre une gestion complète de l'application tout au long de son cycle de vie.
 
