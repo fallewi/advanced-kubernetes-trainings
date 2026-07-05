@@ -1,12 +1,3 @@
----
-layout: default
-title: "02.4 First Operator"
-nav_order: 4
-parent: "Module 2: Introduction to Operators"
-grand_parent: Modules
-mermaid: true
----
-
 # Lesson 2.4: Your First Operator
 
 **Navigation:** [← Previous: Dev Environment](03-dev-environment.md) | [Module Overview](../README.md)
