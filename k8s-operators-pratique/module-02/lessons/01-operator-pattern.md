@@ -39,7 +39,7 @@ En d'autres termes, un Operator permet de transformer le savoir-faire humain en 
 
 Cette approche constitue aujourd'hui l'un des piliers de Kubernetes et explique pourquoi la majorité des plateformes cloud natives modernes reposent sur des Operators.
 
----
+
 
 # Théorie : le modèle Operator
 
@@ -72,7 +72,7 @@ Par exemple :
 
 Cette connaissance spécifique est appelée **connaissance opérationnelle** (*Operational Knowledge*).
 
----
+
 
 # La philosophie des Operators
 
@@ -86,7 +86,7 @@ L'objectif est de remplacer des opérations manuelles répétitives par une auto
 
 Cette philosophie repose sur plusieurs principes fondamentaux.
 
----
+
 
 ## La connaissance opérationnelle devient du code
 
@@ -120,7 +120,7 @@ On parle alors de **Knowledge as Code** ou **Operational Knowledge as Code**.
 
 Cette approche est comparable au principe de l'**Infrastructure as Code**, mais appliquée aux opérations d'exploitation.
 
----
+
 
 ## Une automatisation en libre-service
 
@@ -161,7 +161,7 @@ L'Operator se charge du **comment**.
 
 Cette séparation est l'un des fondements du modèle déclaratif de Kubernetes.
 
----
+
 
 ## Une intégration native à Kubernetes
 
@@ -197,7 +197,7 @@ sans nécessiter d'outil spécifique.
 
 Cette parfaite intégration explique pourquoi les Operators s'insèrent naturellement dans les plateformes GitOps, les solutions d'observabilité ou encore les outils de sauvegarde.
 
----
+
 
 # Pourquoi les Operators sont-ils si importants ?
 
@@ -228,7 +228,7 @@ Les tâches répétitives sont exécutées automatiquement.
 
 L'administrateur n'intervient plus que pour définir les objectifs.
 
----
+
 
 ## Cohérence
 
@@ -236,7 +236,7 @@ Chaque déploiement suit exactement les mêmes règles.
 
 Les risques liés aux erreurs humaines sont fortement réduits.
 
----
+
 
 ## Capitalisation de l'expertise
 
@@ -246,7 +246,7 @@ Elles sont intégrées directement dans le logiciel.
 
 Chaque nouveau déploiement bénéficie automatiquement de cette expertise.
 
----
+
 
 ## Gestion complète du cycle de vie
 
@@ -265,7 +265,7 @@ Il peut gérer :
 
 On parle alors de **gestion du cycle de vie** (*Lifecycle Management*).
 
----
+
 
 # Les niveaux de maturité des Operators
 
@@ -276,7 +276,7 @@ La communauté Kubernetes a défini un **Operator Capability Model**, qui classe
 De manière simplifiée :
 
 | Niveau | Capacités principales |
-|--------|------------------------|
+|--||
 | **Niveau 1** | Installation automatisée de l'application. |
 | **Niveau 2** | Gestion des mises à jour et de la configuration. |
 | **Niveau 3** | Gestion complète du cycle de vie (installation, sauvegardes, restauration, montée en charge, maintenance). |
