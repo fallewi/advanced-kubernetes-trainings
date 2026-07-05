@@ -2058,3 +2058,293 @@ Elle ajoute simplement un **nouveau type de ressource** à Kubernetes.
 
 Dans les prochains chapitres, nous utiliserons **Kubebuilder** pour développer un **Operator** capable de surveiller ces nouvelles ressources et de créer automatiquement les objets Kubernetes nécessaires afin de concrétiser l'état souhaité décrit dans leur champ `spec`.
 
+# Points clés à retenir
+
+Au cours de cette leçon, nous avons découvert l'un des mécanismes les plus puissants et les plus importants de Kubernetes : **les Custom Resource Definitions (CRD)**. Elles constituent le principal moyen d'étendre les fonctionnalités de Kubernetes sans modifier son code source.
+
+Les CRD permettent d'ajouter de nouveaux types de ressources directement au serveur API, offrant ainsi la possibilité de représenter des concepts métier spécifiques tout en profitant de toute l'infrastructure Kubernetes : stockage dans **etcd**, validation, contrôle d'accès, découverte automatique de l'API, surveillance (`Watch`) et intégration avec les contrôleurs.
+
+Avant l'apparition des CRD, toute extension de l'API Kubernetes nécessitait le développement d'un **API Server personnalisé (API Aggregation)**, une approche beaucoup plus complexe à mettre en œuvre et à maintenir. Les CRD ont profondément simplifié ce processus et sont aujourd'hui devenues la solution privilégiée pour développer des plateformes cloud natives.
+
+Au cours de cette leçon, nous avons étudié plusieurs concepts essentiels :
+
+- le rôle des **Custom Resources** ;
+- le fonctionnement des **Custom Resource Definitions** ;
+- le processus d'enregistrement d'une CRD dans Kubernetes ;
+- le schéma **OpenAPI v3** et les mécanismes de validation ;
+- la séparation entre les champs `spec` et `status` ;
+- le versionnement des CRD ;
+- la création et la manipulation de ressources personnalisées.
+
+Vous avez également réalisé votre premier laboratoire pratique, durant lequel vous avez créé votre propre ressource Kubernetes.
+
+---
+
+# Ce que vous devez absolument retenir
+
+À ce stade de votre apprentissage, plusieurs idées doivent être parfaitement assimilées.
+
+## Une CRD crée un nouveau type de ressource
+
+Une CRD ne crée pas directement des Pods, des Services ou des Deployments.
+
+Son unique objectif est d'ajouter un **nouveau type d'objet** au serveur API Kubernetes.
+
+Par exemple :
+
+```
+Pod
+
+Deployment
+
+Service
+
+Database
+
+Website
+
+Backup
+
+Kafka
+
+Certificate
+```
+
+Les quatre dernières ressources n'existent pas dans Kubernetes par défaut.
+
+Elles deviennent disponibles uniquement après l'installation d'une CRD.
+
+---
+
+## Une Custom Resource est une instance de cette définition
+
+La relation entre une CRD et une Custom Resource est comparable à celle existant entre une classe et un objet dans un langage orienté objet.
+
+Par exemple :
+
+```
+CRD
+│
+└── Database
+     ├── production-db
+     ├── staging-db
+     └── development-db
+```
+
+La CRD définit le modèle.
+
+Chaque ressource créée constitue une instance de ce modèle.
+
+---
+
+## Les CRD utilisent les mêmes mécanismes que les ressources natives
+
+Une fois enregistrée, une Custom Resource bénéficie automatiquement de tous les mécanismes proposés par Kubernetes.
+
+Elle peut notamment :
+
+- être créée avec `kubectl apply` ;
+- être consultée avec `kubectl get` ;
+- être modifiée avec `kubectl edit` ;
+- être supprimée avec `kubectl delete` ;
+- être surveillée (`Watch`) ;
+- être protégée par des règles RBAC ;
+- être sauvegardée par des outils compatibles Kubernetes ;
+- être utilisée par les solutions GitOps.
+
+Cette homogénéité est l'une des principales forces de Kubernetes.
+
+---
+
+## Le schéma OpenAPI protège votre API
+
+Grâce au schéma **OpenAPI v3**, Kubernetes refuse automatiquement les ressources invalides.
+
+Les erreurs sont détectées avant même qu'un Operator n'intervienne.
+
+Cela présente plusieurs avantages :
+
+- réduction du nombre d'erreurs de configuration ;
+- simplification du code des contrôleurs ;
+- amélioration de la fiabilité de l'écosystème ;
+- expérience utilisateur plus cohérente.
+
+En pratique, il est recommandé de définir un schéma OpenAPI aussi précis que possible.
+
+---
+
+## `spec` et `status` jouent des rôles différents
+
+Toutes les ressources Kubernetes modernes distinguent clairement deux notions :
+
+- **l'état souhaité** ;
+- **l'état observé**.
+
+Le champ `spec` représente ce que l'utilisateur désire obtenir.
+
+Le champ `status` décrit ce que le contrôleur constate réellement dans le cluster.
+
+Cette séparation est au cœur du modèle déclaratif de Kubernetes.
+
+L'utilisateur exprime son intention.
+
+Le contrôleur agit.
+
+Le contrôleur met ensuite à jour le champ `status`.
+
+---
+
+# Comprendre le lien avec les Operators
+
+Si les CRD sont si importantes, c'est parce qu'elles constituent le point d'entrée de tous les Operators modernes.
+
+Sans CRD, un Operator ne disposerait d'aucun objet métier à surveiller.
+
+Prenons un exemple simple.
+
+Un administrateur crée la ressource suivante :
+
+```yaml
+apiVersion: database.company.com/v1
+kind: PostgreSQL
+metadata:
+  name: production-db
+spec:
+  version: "16"
+  replicas: 3
+  storage: 500Gi
+```
+
+À ce moment-là :
+
+- aucune base PostgreSQL n'existe encore ;
+- aucun Pod n'a été créé ;
+- aucun StatefulSet n'est présent.
+
+Le seul élément existant est une déclaration enregistrée dans le serveur API.
+
+L'Operator détecte alors cette nouvelle ressource grâce au mécanisme **Watch**.
+
+Il analyse le contenu du champ `spec`, puis crée progressivement toutes les ressources Kubernetes nécessaires :
+
+- un StatefulSet ;
+- un Service ;
+- des PersistentVolumeClaims ;
+- des Secrets ;
+- des ConfigMaps ;
+- éventuellement d'autres ressources spécifiques.
+
+Enfin, il met à jour le champ `status` afin d'indiquer que la base de données est désormais opérationnelle.
+
+Ce fonctionnement illustre parfaitement le modèle déclaratif de Kubernetes :
+
+```
+Utilisateur
+
+↓
+
+Déclare un état souhaité
+
+↓
+
+API Server
+
+↓
+
+Operator
+
+↓
+
+Création des ressources Kubernetes
+
+↓
+
+Mise à jour du status
+```
+
+Les CRD représentent donc le point de départ de toute cette chaîne d'automatisation.
+
+---
+
+# Pourquoi cette leçon est-elle importante ?
+
+Il est fréquent que les débutants considèrent les CRD comme une simple fonctionnalité avancée de Kubernetes.
+
+En réalité, elles sont omniprésentes dans les environnements de production.
+
+La majorité des plateformes cloud natives modernes s'appuient sur elles.
+
+Quelques exemples bien connus :
+
+| Projet | Ressources créées |
+|---------|-------------------|
+| Cert-Manager | `Certificate`, `Issuer`, `ClusterIssuer` |
+| Prometheus Operator | `Prometheus`, `Alertmanager`, `ServiceMonitor` |
+| Argo CD | `Application`, `ApplicationSet` |
+| Crossplane | `CompositeResource`, `ProviderConfig`, `Claim` |
+| Strimzi | `Kafka`, `KafkaTopic`, `KafkaUser` |
+| Elastic Cloud on Kubernetes | `Elasticsearch`, `Kibana`, `Beat` |
+
+Lorsque vous installez l'un de ces projets, vous enrichissez automatiquement l'API Kubernetes avec de nouvelles ressources spécialisées.
+
+C'est précisément ce mécanisme qui rend Kubernetes si adaptable à des domaines aussi variés que les bases de données, l'observabilité, la sécurité, le GitOps ou encore la gestion d'infrastructures cloud.
+
+---
+
+# Bonnes pratiques
+
+Lorsque vous concevrez vos propres CRD, gardez toujours à l'esprit les recommandations suivantes :
+
+- concevoir un schéma OpenAPI le plus strict possible ;
+- documenter chaque champ de la ressource ;
+- séparer clairement `spec` et `status` ;
+- anticiper le versionnement de votre API ;
+- choisir des noms cohérents et explicites ;
+- éviter les changements incompatibles entre versions ;
+- limiter les responsabilités d'une même ressource ;
+- privilégier des CRD représentant de véritables concepts métier.
+
+Une CRD bien conçue facilitera grandement le développement et la maintenance de vos Operators.
+
+---
+
+# Et maintenant ?
+
+Félicitations !
+
+Vous venez de terminer le premier module consacré aux fondements des Operators Kubernetes.
+
+Vous comprenez désormais :
+
+- l'architecture du plan de contrôle Kubernetes ;
+- le fonctionnement du serveur API ;
+- le modèle de réconciliation (*Reconciliation Loop*) ;
+- le rôle des contrôleurs Kubernetes ;
+- les **Custom Resources** ;
+- les **Custom Resource Definitions (CRD)** ;
+- le fonctionnement de la validation OpenAPI ;
+- les bases nécessaires pour créer vos propres API Kubernetes.
+
+Ces connaissances constituent les fondations indispensables avant de commencer le développement d'un Operator.
+
+---
+
+# Dans le prochain module
+
+Dans le **Module 2**, nous quitterons progressivement la théorie pour entrer dans la pratique.
+
+Vous découvrirez **Kubebuilder**, l'outil de référence utilisé par la communauté Kubernetes pour développer des Operators.
+
+Vous apprendrez notamment à :
+
+- installer Kubebuilder ;
+- créer un nouveau projet d'Operator ;
+- générer automatiquement une CRD ;
+- comprendre la structure d'un projet Kubebuilder ;
+- développer votre premier contrôleur ;
+- exécuter localement votre Operator ;
+- observer la boucle de réconciliation en action.
+
+À partir de ce module, nous construirons progressivement un véritable Operator Kubernetes capable d'administrer des ressources personnalisées de manière entièrement déclarative.
+
+Vous êtes désormais prêt à franchir cette nouvelle étape.
