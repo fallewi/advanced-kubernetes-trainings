@@ -1,0 +1,88 @@
+# Solution: High Availability Deployment from Module 7
+# This demonstrates HA configuration with multiple replicas and PDB
+# Based on kubebuilder's config/manager/manager.yaml structure
+# 
+# To use: Update your config/manager/manager.yaml with these settings
+# and add config/manager/pdb.yaml for Pod Disruption Budget
+
+---
+# config/manager/manager.yaml (modified for HA)
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: controller-manager
+  namespace: system
+  labels:
+    control-plane: controller-manager
+    app.kubernetes.io/name: postgres-operator
+    app.kubernetes.io/managed-by: kustomize
+spec:
+  replicas: 3  # Multiple replicas for HA (default is 1)
+  selector:
+    matchLabels:
+      control-plane: controller-manager
+  template:
+    metadata:
+      annotations:
+        kubectl.kubernetes.io/default-container: manager
+      labels:
+        control-plane: controller-manager
+    spec:
+      securityContext:
+        runAsNonRoot: true
+        seccompProfile:
+          type: RuntimeDefault
+      serviceAccountName: controller-manager
+      terminationGracePeriodSeconds: 10
+      containers:
+      - name: manager
+        image: controller:latest
+        args:
+        - --leader-elect  # Enable leader election for HA
+        - --health-probe-bind-address=:8081
+        securityContext:
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+            - ALL
+        resources:
+          limits:
+            cpu: 500m
+            memory: 128Mi
+          requests:
+            cpu: 10m
+            memory: 64Mi
+        livenessProbe:
+          httpGet:
+            path: /healthz
+            port: 8081
+          initialDelaySeconds: 15
+          periodSeconds: 20
+        readinessProbe:
+          httpGet:
+            path: /readyz
+            port: 8081
+          initialDelaySeconds: 5
+          periodSeconds: 10
+
+---
+# config/manager/pdb.yaml (add to kustomization.yaml resources)
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: controller-manager-pdb
+  namespace: system
+  labels:
+    control-plane: controller-manager
+spec:
+  minAvailable: 2  # Keep at least 2 pods available
+  selector:
+    matchLabels:
+      control-plane: controller-manager
+
+---
+# Add this to config/manager/kustomization.yaml:
+# resources:
+# - manager.yaml
+# - pdb.yaml
+

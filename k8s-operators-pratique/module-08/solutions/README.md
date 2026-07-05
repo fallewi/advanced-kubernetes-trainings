@@ -1,0 +1,116 @@
+# Module 8 Solutions
+
+This directory contains complete, working solutions for Module 8 labs.
+
+## Files
+
+### Lab 8.1 - Multi-Tenant Operator
+- [**clusterdatabase-types.go**](https://github.com/piyushjajoo/k8s-operators-course/blob/main/module-08/solutions/clusterdatabase-types.go): ClusterDatabase API type definitions (cluster-scoped)
+- [**clusterdatabase-controller.go**](https://github.com/piyushjajoo/k8s-operators-course/blob/main/module-08/solutions/clusterdatabase-controller.go): ClusterDatabase controller implementation
+- [**multi-tenant-controller.go**](https://github.com/piyushjajoo/k8s-operators-course/blob/main/module-08/solutions/multi-tenant-controller.go): Multi-tenant patterns and helper functions
+
+### Lab 8.2 - Operator Composition
+- [**backup_types.go**](https://github.com/piyushjajoo/k8s-operators-course/blob/main/module-08/solutions/backup_types.go): Backup API type definitions
+- [**backup-operator.go**](https://github.com/piyushjajoo/k8s-operators-course/blob/main/module-08/solutions/backup-operator.go): Complete backup controller
+- [**operator-coordination.go**](https://github.com/piyushjajoo/k8s-operators-course/blob/main/module-08/solutions/operator-coordination.go): Operator coordination examples
+
+### Lab 8.3 - Stateful Application Management
+- [**restore_types.go**](https://github.com/piyushjajoo/k8s-operators-course/blob/main/module-08/solutions/restore_types.go): Restore API type definitions
+- [**restore-controller.go**](https://github.com/piyushjajoo/k8s-operators-course/blob/main/module-08/solutions/restore-controller.go): Complete Restore controller implementation
+- [**backup.go**](https://github.com/piyushjajoo/k8s-operators-course/blob/main/module-08/solutions/backup.go): Backup functionality implementation
+- [**restore.go**](https://github.com/piyushjajoo/k8s-operators-course/blob/main/module-08/solutions/restore.go): Restore functionality implementation
+- [**rolling-update.go**](https://github.com/piyushjajoo/k8s-operators-course/blob/main/module-08/solutions/rolling-update.go): Rolling update handling
+- [**Dockerfile**](https://github.com/piyushjajoo/k8s-operators-course/blob/main/module-08/solutions/Dockerfile): Dockerfile with PostgreSQL client tools
+
+## Usage
+
+These solutions can be used as:
+- Reference when building advanced operators
+- Examples of multi-tenancy patterns
+- Operator composition patterns
+- Stateful application management examples
+
+## Integration
+
+### For Multi-Tenancy (Lab 8.1)
+
+Use kubebuilder to scaffold the ClusterDatabase API, then reference the solutions:
+
+```bash
+# 1. Scaffold the API
+kubebuilder create api --group database --version v1 --kind ClusterDatabase
+
+# 2. Reference clusterdatabase-types.go for type definitions
+# 3. Reference clusterdatabase-controller.go for controller logic
+# 4. Reference multi-tenant-controller.go for advanced patterns
+```
+
+Key concepts demonstrated:
+- `+kubebuilder:resource:scope=Cluster` marker for cluster-scoped resources
+- `targetNamespace` field for specifying where to create resources
+- Label-based ownership (since OwnerReferences can't cross scope boundaries)
+- Finalizers for cleanup
+- Quota checking per namespace/tenant
+
+### For Operator Composition (Lab 8.2)
+
+Use kubebuilder to scaffold the Backup API, then reference the solutions:
+
+```bash
+# 1. Scaffold the API (same group as Database to avoid multi-group setup)
+kubebuilder create api --group database --version v1 --kind Backup --resource --controller
+
+# 2. Reference backup_types.go for type definitions
+# 3. Reference backup-operator.go for controller logic
+# 4. Reference operator-coordination.go for coordination patterns
+```
+
+Key concepts demonstrated:
+- Same API group (`database`) for related resources - avoids multi-group complexity
+- `DatabaseRef` field references the Database to backup
+- Controller waits for Database to be ready before backing up
+- Status conditions (`BackupReady`) coordinate state between operators
+- Scheduled backups using cron expressions
+
+### For Stateful Applications (Lab 8.3)
+
+Use kubebuilder to scaffold the Restore API, then reference the solutions:
+
+```bash
+# 1. Scaffold the Restore API (same group as Database and Backup)
+kubebuilder create api --group database --version v1 --kind Restore --resource --controller
+
+# 2. Reference restore_types.go for type definitions
+# 3. Reference restore-controller.go for complete controller implementation
+# 4. Create backup package: mkdir -p internal/backup && cp backup.go internal/backup/
+# 5. Create restore package: mkdir -p internal/restore && cp restore.go internal/restore/
+# 6. Update Dockerfile to include PostgreSQL client tools (see Dockerfile in solutions)
+# 7. Reference rolling-update.go for Database controller enhancements
+```
+
+Key concepts demonstrated:
+- Backup uses `pg_dump` to create SQL backups
+- Restore uses `psql` to restore from backups
+- Restore controller coordinates with both Database and Backup
+- Rolling updates wait for all replicas to be ready
+- Data consistency checks verify replication status
+
+**Important:** Since backup/restore uses `pg_dump` and `psql`, you must update your Dockerfile to include PostgreSQL client tools. The default distroless image doesn't include these tools. See the `Dockerfile` solution for an example using `debian:bookworm-slim` with `postgresql-client` installed.
+
+## Comparison: Database vs ClusterDatabase
+
+| Feature | Database | ClusterDatabase |
+|---------|----------|-----------------|
+| Scope | Namespaced | Cluster |
+| Namespace | Implicit | Explicit (`targetNamespace`) |
+| OwnerReferences | Yes | No (use labels) |
+| Cleanup | Automatic (GC) | Manual (finalizers) |
+| Use case | Team resources | Platform management |
+
+## Notes
+
+- These are complete, working examples
+- They demonstrate advanced patterns
+- Ready for production use
+- Follow best practices
+- CRDs are generated by kubebuilder using `make manifests`
