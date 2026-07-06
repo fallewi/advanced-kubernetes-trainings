@@ -1,5 +1,3 @@
----
-
 # Kustomization - `kubectl kustomize`
 
 - `Kustomize` is a very powerful tool for customizing and building Kubernetes resources.
