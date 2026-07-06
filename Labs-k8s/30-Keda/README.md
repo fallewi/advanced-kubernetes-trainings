@@ -50,7 +50,7 @@ graph LR
     hpa -- "Only" --> mem["Memory Metrics"]
     hpa -- "Complex setup" --> custom["Custom Metrics API"]
 
-    keda["KEDA"] -- "50+ scalers" --> kafka["Kafka"]
+    keda["KEDA"] -- "50+ Scalers" --> kafka["Kafka"]
     keda --> rabbitmq["RabbitMQ"]
     keda --> redis["Redis"]
     keda --> cron["Cron Schedule"]
@@ -59,7 +59,7 @@ graph LR
     keda --> aws["AWS SQS / SNS"]
     keda --> azure["Azure Service Bus"]
     keda --> gcp["GCP Pub/Sub"]
-    keda --> "..."
+    keda --> more["50+ Other Scalers"]
 ```
 
 ### Scale-to-Zero: The Game Changer
