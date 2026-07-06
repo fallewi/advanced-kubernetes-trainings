@@ -1,0 +1,182 @@
+---
+
+# Nginx-Ingress
+
+- Kubernetes `ingress` object is a `DNS`.
+- To enable an `ingress object`, we need an `ingress controller`.
+- In this lab we will use `Nginx-Ingress` to route external traffic to services inside the cluster.
+
+---
+
+## What will we learn?
+
+- How to deploy an application and expose it as a service
+- How to configure an Nginx Ingress controller
+- How to create SSL certificates and store them as secrets
+- How to deploy an Ingress resource with TLS
+
+---
+
+## Prerequisites
+
+- A running Kubernetes cluster (`kubectl cluster-info` should work)
+- `kubectl` configured against the cluster
+- Minikube (for the ingress addon) or an existing ingress controller
+
+!!! warning "Important"
+    We cannot see it in action on a `localhost` (meaning that it will not get an external IP) unless we use the explicit `http://host:port` format.
+
+---
+
+## 01. Deploy Sample App
+
+- To get started with `Nginx-Ingress`, we will deploy out previous app:
+
+```sh
+# Create 3 containers
+kubectl create deployment ingress-pods --image=nirgeier/k8s-secrets-sample --replicas=3
+
+# Expose the service
+kubectl expose deployment ingress-pods --port=5000
+```
+
+
+---
+
+## 02. Deploy default backend
+
+- Now lets deploy the `Nginx-Ingress` (grabbed from the official site):
+
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: default-http-backend
+spec:
+    replicas: 1
+    selector:
+        matchLabels:
+        app: default-http-backend
+    template:
+        metadata:
+        labels:
+            app: default-http-backend
+        spec:
+            terminationGracePeriodSeconds: 60
+            containers:
+            - name: default-http-backend
+                # Any image is permissable as long as:
+                # 1. It serves a 404 page at /
+                # 2. It serves 200 on a /healthz endpoint
+                image: gcr.io/google_containers/defaultbackend:1.0
+                livenessProbe:
+                httpGet:
+                    path: /healthz
+                    port: 8080
+                    scheme: HTTP
+                initialDelaySeconds: 30
+                timeoutSeconds: 5
+                ports:
+                - containerPort: 8080
+                resources:
+                limits:
+                    cpu: 10m
+                    memory: 20Mi
+                requests:
+                    cpu: 10m
+                    memory: 20Mi
+```
+
+---
+
+
+## 03. Create service
+
+- Next, let's create the service:
+
+```yaml
+apiVersion: v1
+kind: Service
+metadata:
+    name: default-http-backend
+spec:
+    selector:
+    app: default-http-backend
+    ports:
+    - protocol: TCP
+    port: 80
+    targetPort: 8080
+    type: NodePort
+```
+
+---
+
+
+
+## 04. Import `ssl` certificate
+-   In this demo we will use certificate.
+-   The certificate is in the same folder as this file
+-   The certificate is for the hostname: `ingress.local`
+
+```sh
+# If you wish to create the certificate use this script
+### ---> The common Name fiels is your host for later on
+###      Common Name (e.g. server FQDN or YOUR name) []:
+openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout certificate.key -out certificate.crt
+
+# Create a pem file
+# The purpose of the DH parameters is to exchange secrets
+openssl dhparam -out certificate.pem 2048
+```
+
+- Store the certificate in secret:
+
+```sh
+# Store the certificate
+kubectl create secret tls tls-certificate --key certificate.key --cert certificate.crt
+secret/tls-certificate created
+
+# Store the DH parameters
+kubectl create secret generic tls-dhparam --from-file=certificate.pem
+secret/tls-dhparam created
+```
+
+---
+
+## 05. Deploy the ingress
+- Now that we have the certificate, we can deploy the `Ingress`:
+
+```yaml
+# Ingress.yaml
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+    name: my-first-ingress
+annotations:
+    kubernetes.io/ingress.class: "nginx"
+    nginx.org/ssl-services: "my-service"
+spec:
+    tls:
+        - hosts:
+        - myapp.local
+        secretName: tls-certificate
+    rules:
+    - host: myapp.local
+        http:
+        paths:
+        - path: /
+            backend:
+            serviceName: ingress-pods
+            servicePort: 5000
+```
+
+---
+
+## 06. Enable the ingress addon
+
+- The `Ingress` is not enabled by default, so we have to "turn it on":
+
+```sh
+minikube addons enable ingress
+✅  ingress was successfully enabled
+```

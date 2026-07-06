@@ -1,0 +1,148 @@
+---
+
+# Deployment - Imperative
+
+- In this lab we will create Kubernetes deployments using imperative `kubectl` commands.
+- We will deploy a multitool container, expose it as a service, and test connectivity.
+
+---
+
+## What will we learn?
+
+- How to create a deployment using `kubectl create`
+- How to expose a deployment as a `NodePort` service
+- How to find the assigned IP and port
+- How to test the deployment using `curl`
+
+---
+
+## Prerequisites
+
+- A running Kubernetes cluster (`kubectl cluster-info` should work)
+- `kubectl` configured against the cluster
+
+---
+
+## 01. Create Namespace
+
+- As completed in the previous lab, create the desired namespace [liora]:
+
+```sh
+kubectl create namespace liora
+namespace/liora created
+```
+
+- In order to set this is as the default namespace, please refer to <a href="../01-Namespace#2-setting-the-default-namespace-for-kubectl">set default namespace</a>.
+
+---
+
+## 02. Deploy Multitool Image
+
+- We start with creating the following deployment [praqma/network-multitool](https://github.com/Praqma/Network-MultiTool).
+- This is a multitool for container/network testing and troubleshooting.
+
+```sh
+# Deploy the first container
+kubectl create deployment multitool -n liora --image=praqma/network-multitool
+deployment.apps/multitool created
+```
+
+- `kubectl create deployment` actually creates a replica set for us.
+- We can verify it by running:
+
+```
+kubectl get all -n liora
+
+## Expected output:
+NAME                                    READY    UP-TO-DATE  AVAILABLE
+deployment.apps/multitool               1/1      1           1
+
+NAME                                    DESIRED  CURRENT     READY
+replicaset.apps/multitool-7885b5f94f    1        1           1
+
+NAME                                    READY    STATUS      RESTARTS
+pod/multitool-7885b5f94f-9s7xh          1/1      Running     0
+```
+
+---
+
+## 03. Test the Deployment
+
+- The above deployment contains a container named, `multitool`.
+- In order for us to be able to access this `multitool` container, we need to create a resource of type `Service` which will "open" the server for incoming traffic.
+
+### Create a service using `kubectl expose`
+
+```sh
+# "Expose" the desired port for incoming traffic
+# This command is equivalent to declare a `kind: Service` in YAML file
+
+kubectl expose deployment -n liora multitool --port 80 --type NodePort
+service/multitool exposed
+```
+
+- Verify that the service have been created by running:
+
+```sh
+kubectl get service -n liora
+
+# The output should be something like
+NAME                TYPE       CLUSTER-IP      EXTERNAL-IP   PORT(S)        AGE
+service/multitool   NodePort   10.102.73.248   <none>        80:31418/TCP   3s
+```
+
+---
+
+### Find the Port and IP Assigned to Our Pod
+
+- Grab the port from the previous output.
+  - Port: In the above sample its `31418` [`80:31418/TCP`]
+  - IP: we will need to grab the cluster IP using `kubectl cluster-info`
+
+```sh
+# get the IP
+kubectl cluster-info
+
+# You should get output similar to this one
+Kubernetes control plane is running at https://192.168.49.2:8443
+KubeDNS is running at https://192.168.49.2:8443/api/v1/namespaces/kube-system/services/kube-dns:dns/proxy
+
+# Programmatically get the port and the IP
+CLUSTER_IP=$(kubectl get nodes \
+            --selector=node-role.kubernetes.io/control-plane \
+            -o jsonpath='{$.items[*].status.addresses[?(@.type=="InternalIP")].address}')
+
+NODE_PORT=$(kubectl get -o \
+            jsonpath="{.spec.ports[0].nodePort}" \
+            services multitool -n liora)
+```
+
+- In this sample the cluster-ip is `192.168.49.2`
+
+---
+
+### Test the Deployment
+
+- Test to see if the deployment worked using the `ip address and port number` we have retrieved above.
+- Execute `curl` with the following parameters: `http://${CLUSTER_IP}:${NODE_PORT}`
+
+```sh
+curl http://${CLUSTER_IP}:${NODE_PORT}
+
+# Or in the above sample
+curl 192.168.49.2:30436
+
+# The output should be similar to this:
+Praqma Network MultiTool (with NGINX) ...
+```
+
+- If you get the above output, congratulations! You have successfully created a deployment using imperative commands.
+
+---
+
+## Cleanup
+
+```sh
+kubectl delete service multitool -n liora
+kubectl delete deployment multitool -n liora
+```

@@ -1,0 +1,33 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: postgres
+  name: prefix-liora-postgres-suffix-liora
+  namespace: liora
+spec:
+  ports:
+  - port: 5432
+  selector:
+    app: postgres
+  type: NodePort
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: prefix-liora-myapp-suffix-liora
+  namespace: liora
+spec:
+  selector:
+    matchLabels:
+      app: myapp
+  template:
+    metadata:
+      labels:
+        app: myapp
+    spec:
+      containers:
+      - image: __image__
+        name: myapp
+      - image: nginx
+        name: nginx

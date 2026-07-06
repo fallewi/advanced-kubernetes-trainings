@@ -1,0 +1,10 @@
+# The apiVerison is taken from the crd defintion
+# <spec.names.plural>.<spec.group>/<spec.versions>
+apiVersion: "liora.co.il/v1"
+kind: "lioraCRD"
+metadata:
+  name: "liora-object"
+spec:
+  crdSpec: "--" # String
+  image: "--" # String
+  replicas: 3 # Integer
