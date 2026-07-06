@@ -1,5 +1,3 @@
----
-
 # KEDA - Kubernetes Event-Driven Autoscaling
 
 - `KEDA` is a **Kubernetes-based Event Driven Autoscaler** that extends the native Kubernetes `HorizontalPodAutoscaler` (HPA).
