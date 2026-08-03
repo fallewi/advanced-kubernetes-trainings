@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: taints-tolerations-mismatch-pod
+spec:
+  containers:
+  - name: busybox
+    image: busybox
+    command:
+      - "sh"
+      - "-c"
+      - "echo 'Simulating taints and tolerations mismatch' && sleep 3600"
+  nodeSelector:
+    non-existent-taint-label: "true"  # No node has this label, so pod stays Pending

@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: crashloopbackoff-fixed-pod
+spec:
+  containers:
+  - name: busybox
+    image: busybox
+    command:
+      - "sh"
+      - "-c"
+      - "sleep 3600"  # Keeps the container running

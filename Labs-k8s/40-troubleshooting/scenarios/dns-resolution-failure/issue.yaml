@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: dns-failure-pod
+spec:
+  dnsPolicy: "None"
+  dnsConfig:
+    nameservers:
+    - "192.0.2.1"
+  containers:
+  - name: dns-test
+    image: busybox
+    command: ["sh", "-c", "nslookup kubernetes.default.svc.cluster.local || sleep 3600"]

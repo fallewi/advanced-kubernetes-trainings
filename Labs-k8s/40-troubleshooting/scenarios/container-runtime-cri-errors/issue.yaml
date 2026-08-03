@@ -1,0 +1,16 @@
+apiVersion: node.k8s.io/v1
+kind: RuntimeClass
+metadata:
+  name: broken-runtime
+handler: non-existent-handler
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: cri-error-pod
+spec:
+  runtimeClassName: broken-runtime
+  containers:
+  - name: busybox
+    image: busybox
+    command: ["sh", "-c", "sleep 3600"]

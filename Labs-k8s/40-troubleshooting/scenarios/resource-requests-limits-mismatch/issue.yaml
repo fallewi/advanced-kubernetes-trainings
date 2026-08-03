@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: resource-mismatch-pod
+spec:
+  containers:
+  - name: busybox
+    image: busybox
+    command:
+      - "sh"
+      - "-c"
+      - "echo 'Simulating resource mismatch' && sleep 1000"
+    resources:
+      requests:
+        memory: "200Mi"
+        cpu: "500m"
+      limits:
+        memory: "500Mi"
+        cpu: "100m"  # Limit is less than the request, causing mismatch

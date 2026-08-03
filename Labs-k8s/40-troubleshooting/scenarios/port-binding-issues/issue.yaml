@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: port-binding-issue-pod
+spec:
+  containers:
+  - name: busybox
+    image: busybox
+    ports:
+    - containerPort: 8080  # Port already in use
+    command:
+      - "sh"
+      - "-c"
+      - "echo 'Port binding issue detected' && sleep 1000"

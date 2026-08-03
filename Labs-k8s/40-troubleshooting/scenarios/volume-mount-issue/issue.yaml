@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: volume-mount-issue-pod
+spec:
+  containers:
+  - name: busybox
+    image: busybox
+    volumeMounts:
+      - mountPath: "/mnt/data"
+        name: missing-volume  # Volume is not defined
+    command:
+      - "sh"
+      - "-c"
+      - "echo 'Simulating volume mount issue' && sleep 1000"

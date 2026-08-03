@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: security-context-issue-pod
+spec:
+  containers:
+  - name: busybox
+    image: busybox
+    command:
+      - "sh"
+      - "-c"
+      - "echo 'Simulating security context issue' && sleep 1000"
+  securityContext:
+    runAsUser: 0  # Simulating root user
+    runAsGroup: 0

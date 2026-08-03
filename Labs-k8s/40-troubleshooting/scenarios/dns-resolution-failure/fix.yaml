@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: dns-fixed-pod
+spec:
+  dnsPolicy: ClusterFirst
+  containers:
+  - name: dns-test
+    image: busybox
+    command: ["sh", "-c", "nslookup kubernetes.default.svc.cluster.local && sleep 3600"]

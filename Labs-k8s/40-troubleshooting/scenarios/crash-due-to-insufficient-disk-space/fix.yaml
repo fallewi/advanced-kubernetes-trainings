@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: crash-disk-space-fixed-pod
+spec:
+  containers:
+  - name: busybox
+    image: busybox
+    command: ["sh", "-c", "echo healthy && sleep 3600"]
+    resources:
+      limits:
+        ephemeral-storage: "100Mi"

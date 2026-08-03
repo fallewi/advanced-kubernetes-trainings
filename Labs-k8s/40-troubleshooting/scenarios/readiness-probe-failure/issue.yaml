@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: readiness-probe-issue-pod
+spec:
+  containers:
+  - name: nginx
+    image: nginx:alpine
+    readinessProbe:
+      httpGet:
+        path: /nonexistent
+        port: 80
+      initialDelaySeconds: 5
+      periodSeconds: 3
+      failureThreshold: 3

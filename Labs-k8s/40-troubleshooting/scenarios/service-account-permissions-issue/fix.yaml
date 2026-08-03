@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: service-account-permission-fixed-pod
+spec:
+  containers:
+  - name: busybox
+    image: busybox
+    command:
+      - "sh"
+      - "-c"
+      - "echo 'Service account permission fixed' && sleep 3600"
+  serviceAccountName: default  # Default service account always exists in every namespace

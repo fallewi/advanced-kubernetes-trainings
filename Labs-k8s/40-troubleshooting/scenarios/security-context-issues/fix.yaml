@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: security-context-fixed-pod
+spec:
+  containers:
+  - name: busybox
+    image: busybox
+    command:
+      - "sh"
+      - "-c"
+      - "echo 'Security context fixed' && sleep 1000"
+  securityContext:
+    runAsUser: 1000  # Set to a non-root user
+    runAsGroup: 1000
