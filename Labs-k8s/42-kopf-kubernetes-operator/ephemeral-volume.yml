@@ -1,0 +1,12 @@
+apiVersion: storage.example.com/v1
+kind: EphemeralVolumeClaim
+
+metadata:
+  name: my-ephemeral-volume
+
+spec:
+  storageClass: standard
+  size: 1Gi
+
+  accessModes:
+    - ReadWriteOnce

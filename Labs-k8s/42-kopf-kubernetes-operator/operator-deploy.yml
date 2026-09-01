@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+
+metadata:
+  name: evc-operator
+  namespace: default
+
+spec:
+
+  replicas: 1
+
+  selector:
+    matchLabels:
+      app: evc-operator
+
+  template:
+
+    metadata:
+      labels:
+        app: evc-operator
+
+    spec:
+
+      serviceAccountName: evc-operator
+
+      containers:
+
+        - name: operator
+
+          image: fallewi/evc-operator:2.0-pvc-pv
+
+          imagePullPolicy: IfNotPresent

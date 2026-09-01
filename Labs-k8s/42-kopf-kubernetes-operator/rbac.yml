@@ -1,0 +1,47 @@
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: evc-operator
+  namespace: default
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: evc-operator-clusterrole
+rules:
+  # 1. Droits requis par Kopf pour sa propre coordination (Peering)
+  - apiGroups: ["kopf.dev"]
+    resources: ["clusterpeerings", "peerings"]
+    verbs: ["get", "list", "watch", "patch", "update"]
+
+  # 2. Droits sur votre Custom Resource Definition (CRD)
+  - apiGroups: ["://example.com"]
+    resources: ["ephemeralvolumeclaims", "ephemeralvolumeclaims/status"]
+    verbs: ["get", "list", "watch", "patch", "update"]
+
+  # 3. Droits sur les ressources de stockage Kubernetes (Core API)
+  - apiGroups: [""]
+    resources: ["persistentvolumes"]
+    verbs: ["get", "list", "watch", "create", "delete", "patch", "update"]
+  
+  - apiGroups: [""]
+    resources: ["persistentvolumeclaims", "persistentvolumeclaims/status"]
+    verbs: ["get", "list", "watch", "create", "delete", "patch", "update"]
+
+  # 4. Droits pour les logs et événements de diagnostic générés par Kopf
+  - apiGroups: [""]
+    resources: ["events"]
+    verbs: ["create", "patch"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: evc-operator-clusterrolebinding
+subjects:
+  - kind: ServiceAccount
+    name: evc-operator
+    namespace: default
+roleRef:
+  kind: ClusterRole
+  name: evc-operator-clusterrole
+  apiGroup: rbac.authorization.k8s.io

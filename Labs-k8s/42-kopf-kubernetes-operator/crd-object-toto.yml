@@ -1,0 +1,12 @@
+apiVersion: storage.example.com/v1
+kind: EphemeralVolumeClaim
+
+metadata:
+  name: toto-volume
+
+spec:
+  storageClass: standard
+  size: 2Gi
+
+  accessModes:
+    - ReadWriteOnce

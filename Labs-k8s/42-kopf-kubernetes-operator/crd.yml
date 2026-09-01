@@ -1,0 +1,84 @@
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+
+metadata:
+  name: ephemeralvolumeclaims.storage.example.com
+
+spec:
+  group: storage.example.com
+
+  scope: Namespaced
+
+  names:
+    plural: ephemeralvolumeclaims
+    singular: ephemeralvolumeclaim
+    kind: EphemeralVolumeClaim
+    shortNames:
+      - evc
+
+  versions:
+    - name: v1
+      served: true
+      storage: true
+
+      schema:
+        openAPIV3Schema:
+          type: object
+
+          properties:
+            spec:
+              type: object
+
+              required:
+                - storageClass
+                - size
+
+              properties:
+                storageClass:
+                  type: string
+                  minLength: 1
+
+                size:
+                  type: string
+                  minLength: 1
+
+                accessModes:
+                  type: array
+                  items:
+                    type: string
+                    enum:
+                      - ReadWriteOnce
+                      - ReadOnlyMany
+                      - ReadWriteMany
+                      - ReadWriteOncePod
+
+            status:
+              type: object
+
+              properties:
+                phase:
+                  type: string
+
+                pvcName:
+                  type: string
+
+      subresources:
+        status: {}
+
+      additionalPrinterColumns:
+        - name: StorageClass
+          type: string
+          jsonPath: .spec.storageClass
+
+        - name: Size
+          type: string
+          jsonPath: .spec.size
+
+        - name: Phase
+          type: string
+          jsonPath: .status.phase
+
+        - name: PVC
+          type: string
+          jsonPath: .status.pvcName
+
