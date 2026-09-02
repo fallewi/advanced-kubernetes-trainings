@@ -1,0 +1,8 @@
+---
+apiVersion: secrets.hashicorp.com/v1beta1
+kind: VaultConnection
+metadata:
+  namespace: my-ns
+  name: my-vault-connection
+spec:
+  address: http://vault.vault.svc.cluster.local:8200 # replace with your Vault address
