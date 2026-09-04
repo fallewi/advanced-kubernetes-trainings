@@ -1,0 +1,6 @@
+order_id,customer_id,product,category,quantity,price,order_date,city,payment_method,status
+1001,C001,Phone,Electronics,1,500,2025-01-10,Delhi,UPI,Completed
+1002,C002,Laptop,Electronics,1,900,2025-01-11,Mumbai,Credit Card,Completed
+1003,C003,Tablet,Electronics,2,300,2025-01-12,Bangalore,Debit Card,Completed
+1004,C004,Headphones,Electronics,3,80,2025-01-13,Pune,UPI,Completed
+1005,C005,Monitor,Electronics,1,250,2025-01-14,Hyderabad,Credit Card,Completed
